@@ -1,4 +1,4 @@
-# Freekick AI ⚽🥅
+# Freekick AI: Track Your Shot
 
 The first app designed for tracking soccer shot metrics in real-time.
 
