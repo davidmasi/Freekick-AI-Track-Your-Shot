@@ -278,7 +278,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         // Compute the speed in mph
         // trajectoryView.speed is in points/second, convert that to meters/second by multiplying the pointToMeterMultiplier.
         // 1 meters/second = 2.24 miles/hour
-        let releaseSpeed = round(trajectoryView.speed * gameManager.pointToMeterMultiplier * 2.24 * 200) / 100
+        let releaseSpeed = round(trajectoryView.speed * gameManager.pointToMeterMultiplier * 2.24) / 100
         let releaseAngle = playerStats.getReleaseAngle()
         lastKickMetrics.updateMetrics(newScore: score, speed: releaseSpeed, angle: releaseAngle)
         self.gameManager.stateMachine.enter(GameManager.KickCompletedState.self)
