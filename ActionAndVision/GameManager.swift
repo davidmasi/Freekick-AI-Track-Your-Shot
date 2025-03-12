@@ -37,7 +37,7 @@ class GameManager {
     class SetupCameraState: State {
     }
     
-    class DetectingGoalState: State {
+    class detectingGoalState: State {
     }
     
     class DetectedGoalState: State {
@@ -62,7 +62,6 @@ class GameManager {
     
     let stateMachine: GKStateMachine
     var goalRegion = CGRect.null
-    var TopCornerRegion = CGRect.null
     var recordedVideoSource: AVAsset?
     var playerStats = PlayerStats()
     var lastKickMetrics = KickMetrics()
@@ -75,8 +74,8 @@ class GameManager {
         // Possible states with valid next states.
         let states = [
             InactiveState([SetupCameraState.self]),
-            SetupCameraState([DetectingGoalState.self]),
-            DetectingGoalState([DetectedGoalState.self]),
+            SetupCameraState([detectingGoalState.self]),
+            detectingGoalState([DetectedGoalState.self]),
             DetectedGoalState([DetectingPlayerState.self]),
             DetectingPlayerState([DetectedPlayerState.self]),
             DetectedPlayerState([TrackKicksState.self]),

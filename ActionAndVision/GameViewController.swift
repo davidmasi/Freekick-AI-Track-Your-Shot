@@ -151,7 +151,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             self.clearKPILabels()
         }
     }
-
+    
     func clearKPILabels() {
         // Hide KPI labels
         dashboardView.isHidden = true
@@ -287,19 +287,32 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     func computeScore(_ finalShotLocation: CGPoint) -> Scoring {
         let heightBuffer: CGFloat = 100
         let goalRegion = gameManager.goalRegion
-        // In some cases trajectory observation may not end exactly in the goal and end a few pixels above the goal.
-        // This can happen especially when the shot bounces into the goal. Filtering conditions can be adjusted to get those observations as well.
-        // Defining extended regions for goal and the top corner with a heightBuffer to cover these cases.
-        let extendedGoalRegion = CGRect(x: goalRegion.origin.x, y: goalRegion.origin.y - heightBuffer,
-                                         width: goalRegion.width, height: goalRegion.height + heightBuffer)
-        let TopCornerRegion = gameManager.TopCornerRegion
-        let extendedTopCornerRegion = CGRect(x: TopCornerRegion.origin.x, y: TopCornerRegion.origin.y - heightBuffer,
-                                        width: TopCornerRegion.width, height: TopCornerRegion.height + heightBuffer)
+        
+        // Extend the goal region slightly to account for bounces
+        let extendedGoalRegion = CGRect(x: goalRegion.origin.x,
+                                        y: goalRegion.origin.y - heightBuffer,
+                                        width: goalRegion.width,
+                                        height: goalRegion.height + heightBuffer)
+        
+        // Define top corner regions manually
+        let cornerWidth = goalRegion.width * 0.3  // Top corner zones take up 30% of goal width
+        let cornerHeight = goalRegion.height * 0.3  // Top corner zones take up 30% of goal height
+        
+        let topLeftCornerRegion = CGRect(x: goalRegion.minX,
+                                         y: goalRegion.minY,
+                                         width: cornerWidth,
+                                         height: cornerHeight)
+        
+        let topRightCornerRegion = CGRect(x: goalRegion.maxX - cornerWidth,
+                                          y: goalRegion.minY,
+                                          width: cornerWidth,
+                                          height: cornerHeight)
+        
         if !extendedGoalRegion.contains(finalShotLocation) {
             // Shot missed the goal
             return Scoring.zero
-        } else if extendedTopCornerRegion.contains(finalShotLocation) {
-            // Shot landed in the top corner
+        } else if topLeftCornerRegion.contains(finalShotLocation) || topRightCornerRegion.contains(finalShotLocation) {
+            // Shot landed in a top corner
             return lastKickMetrics.kickType == .outsideKick ? Scoring.fifteen : Scoring.three
         } else {
             // Shot landed in the goal
