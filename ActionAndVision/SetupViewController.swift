@@ -1,5 +1,5 @@
 /*
-See LICENSE folder for this sample’s licensing information.
+See LICENSE folder for this sample's licensing information.
 
 Abstract:
 View controller responsible for the setup state of the game.
@@ -17,14 +17,30 @@ import Vision
 class SetupViewController: UIViewController {
 
     @IBOutlet var statusLabel: OverlayLabel!
- 
+    private struct GoalLineCandidate {
+        let start: CGPoint
+        let end: CGPoint
+        let length: CGFloat
+        let angle: CGFloat
+        let midpoint: CGPoint
+        let score: CGFloat
+    }
+
+    private enum GoalSide {
+        case left
+        case right
+    }
+
     private let gameManager = GameManager.shared
     private let goalLocationGuide = BoundingBoxView()
     private let goalBoundingBox = BoundingBoxView()
+    private let detectorDebugLabel = UILabel()
 
+    private var selectedGoalSide: GoalSide?
+    private var hasPresentedGoalSidePrompt = false
     private var goalDetectionRequest: VNCoreMLRequest!
-    private let goalDetectionMinConfidence: VNConfidence = 0.1 // was 0.6
-    
+    private let goalDetectionMinConfidence: VNConfidence = 0.2 // was 0.6
+
     enum SceneSetupStage {
         case detectingGoal
         case detectingGoalPlacement
@@ -34,18 +50,18 @@ class SetupViewController: UIViewController {
     }
 
     private var setupStage = SceneSetupStage.detectingGoal
-    
+
     enum SceneStabilityResult {
         case unknown
         case stable
         case unstable
     }
-    
+
     private let sceneStabilityRequestHandler = VNSequenceRequestHandler()
     private let sceneStabilityRequiredHistoryLength = 15
     private var sceneStabilityHistoryPoints = [CGPoint]()
     private var previousSampleBuffer: CMSampleBuffer?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         goalLocationGuide.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -62,6 +78,23 @@ class SetupViewController: UIViewController {
         goalBoundingBox.backgroundOpacity = 0.45
         goalBoundingBox.isHidden = true
         view.addSubview(goalBoundingBox)
+
+        detectorDebugLabel.translatesAutoresizingMaskIntoConstraints = false
+        detectorDebugLabel.numberOfLines = 0
+        detectorDebugLabel.font = UIFont.monospacedSystemFont(ofSize: 11, weight: .regular)
+        detectorDebugLabel.textColor = .white
+        detectorDebugLabel.backgroundColor = UIColor.black.withAlphaComponent(0.45)
+        detectorDebugLabel.textAlignment = .left
+        detectorDebugLabel.layer.cornerRadius = 4
+        detectorDebugLabel.layer.masksToBounds = true
+        detectorDebugLabel.text = " Detector: idle "
+        view.addSubview(detectorDebugLabel)
+        NSLayoutConstraint.activate([
+            detectorDebugLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
+            detectorDebugLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12),
+            detectorDebugLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 220)
+        ])
+
         updateSetupState()
     }
 
@@ -79,8 +112,13 @@ class SetupViewController: UIViewController {
             let error = AppError.createRequestError(reason: "Could not create Vision request for goal detector")
             AppError.display(error, inViewController: self)
         }
+
+        if gameManager.recordedVideoSource == nil && !hasPresentedGoalSidePrompt {
+            hasPresentedGoalSidePrompt = true
+            presentGoalSideSelectionPrompt()
+        }
     }
-    
+
     func updateBoundingBox(_ boundingBox: BoundingBoxView, withViewRect rect: CGRect?, visionRect: CGRect) {
         DispatchQueue.main.async {
             boundingBox.frame = rect ?? .zero
@@ -92,13 +130,17 @@ class SetupViewController: UIViewController {
             }
         }
     }
-    
+
     func updateSetupState() {
         let goalBox = goalBoundingBox
         DispatchQueue.main.async {
             switch self.setupStage {
             case .detectingGoal:
-                self.statusLabel.text = "Locating Goal"
+                if self.gameManager.recordedVideoSource == nil && self.selectedGoalSide == nil {
+                    self.statusLabel.text = "Select Goal Placement"
+                } else {
+                    self.statusLabel.text = "Locating Goal"
+                }
                 self.statusLabel.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
             case .detectingGoalPlacement:
                 // Goal placement guide is shown only when using camera feed.
@@ -133,57 +175,70 @@ class SetupViewController: UIViewController {
         }
     }
 
-    func analyzeGoalContours(_ contours: [VNContour]) -> CGPath? {
-        let path = UIBezierPath()
+    private var guideVisionRectForSelectedSide: CGRect? {
+        guard let side = selectedGoalSide else { return nil }
+        switch side {
+        case .right:
+            return CGRect(x: 0.7, y: 0.3, width: 0.28, height: 0.3)
+        case .left:
+            return CGRect(x: 0.02, y: 0.3, width: 0.28, height: 0.3)
+        }
+    }
 
-        // Compute bounding boxes manually
-        let filteredContours = contours.compactMap { contour -> (VNContour, CGRect)? in
-            let points = contour.normalizedPoints.map { CGPoint(x: CGFloat($0.x), y: CGFloat($0.y)) }
-            guard let minX = points.map({ $0.x }).min(),
-                  let maxX = points.map({ $0.x }).max(),
-                  let minY = points.map({ $0.y }).min(),
-                  let maxY = points.map({ $0.y }).max() else {
+    private func presentGoalSideSelectionPrompt() {
+        let alert = UIAlertController(
+            title: "Goal Side",
+            message: "Select whether the goal will be located on the left or right side of the live camera preview.",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Left", style: .default, handler: { _ in
+            self.selectedGoalSide = .left
+            self.setupStage = .detectingGoal
+            self.updateSetupState()
+        }))
+        alert.addAction(UIAlertAction(title: "Right", style: .default, handler: { _ in
+            self.selectedGoalSide = .right
+            self.setupStage = .detectingGoal
+            self.updateSetupState()
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+            (self.parent as? RootViewController)?.exitToMenu()
+        }))
+        present(alert, animated: true)
+    }
+
+    func analyzeGoalContours(_ contours: [VNContour]) -> CGPath? {
+        let simplifiedContours = contours.compactMap { contour -> VNContour? in
+            guard let poly = try? contour.polygonApproximation(epsilon: 0.01),
+                  poly.pointCount >= 3 else {
                 return nil
             }
-            
-            let boundingBox = CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
-            return (contour, boundingBox)
+            return poly
         }
 
-        // Find crossbar and posts
-        var crossbar: VNContour?
-        var leftPost: VNContour?
-        var rightPost: VNContour?
+        let lineCandidates = extractGoalLineCandidates(from: simplifiedContours)
 
-        for (contour, boundingBox) in filteredContours {
-            let aspectRatio = boundingBox.width / boundingBox.height
-
-            if aspectRatio > 2.5 {
-                // It's a long horizontal line -> Crossbar
-                crossbar = contour
-            } else if boundingBox.minX < 0.3 {
-                // It's on the left side -> Left post
-                leftPost = contour
-            } else if boundingBox.maxX > 0.7 {
-                // It's on the right side -> Right post
-                rightPost = contour
-            }
+        guard let topBar = selectBestTopBar(from: lineCandidates),
+              let leftPost = selectBestPost(from: lineCandidates, side: .left, topBar: topBar),
+              let rightPost = selectBestPost(from: lineCandidates, side: .right, topBar: topBar)
+        else {
+            return nil
         }
 
-        // Add detected parts to path
-        if let crossbar = crossbar {
-            path.append(UIBezierPath(cgPath: crossbar.normalizedPath))
-        }
-        if let leftPost = leftPost {
-            path.append(UIBezierPath(cgPath: leftPost.normalizedPath))
-        }
-        if let rightPost = rightPost {
-            path.append(UIBezierPath(cgPath: rightPost.normalizedPath))
-        }
+        let topLeft = intersection(topBar, leftPost) ?? topBar.start
+        let topRight = intersection(topBar, rightPost) ?? topBar.end
+        let bottomLeft = lowerEndpoint(of: leftPost)
+        let bottomRight = lowerEndpoint(of: rightPost)
+
+        let path = UIBezierPath()
+        path.move(to: topLeft)
+        path.addLine(to: topRight)
+        path.addLine(to: bottomRight)
+        path.addLine(to: bottomLeft)
+        path.close()
 
         return path.cgPath
     }
-
 
     // Compute Bounding Box Area
     func boundingBoxArea(_ contour: VNContour) -> CGFloat {
@@ -196,13 +251,13 @@ class SetupViewController: UIViewController {
         }
         return (maxX - minX) * (maxY - minY)
     }
-    
+
     var sceneStability: SceneStabilityResult {
         // Determine if we have enough evidence of stability.
         guard sceneStabilityHistoryPoints.count > sceneStabilityRequiredHistoryLength else {
             return .unknown
         }
-        
+
         // Calculate the moving average by adding up values of stored points
         // returned by VNTranslationalImageRegistrationRequest for both axis
         var movingAverage = CGPoint.zero
@@ -228,6 +283,9 @@ extension SetupViewController: CameraViewControllerOutputDelegate {
             case .detectingGoalContours:
                 try detectGoalContours(controller, buffer, orientation)
             case .detectingGoal, .detectingGoalPlacement:
+                guard gameManager.recordedVideoSource != nil || selectedGoalSide != nil else {
+                    return
+                }
                 try detectGoal(controller, buffer, orientation)
             }
             updateSetupState()
@@ -235,7 +293,7 @@ extension SetupViewController: CameraViewControllerOutputDelegate {
             AppError.display(error, inViewController: self)
         }
     }
-    
+
     private func checkSceneStability(_ controller: CameraViewController, _ buffer: CMSampleBuffer, _ orientation: CGImagePropertyOrientation) throws {
         guard let previousBuffer = self.previousSampleBuffer else {
             self.previousSampleBuffer = buffer
@@ -249,73 +307,213 @@ extension SetupViewController: CameraViewControllerOutputDelegate {
             sceneStabilityHistoryPoints.append(CGPoint(x: transform.tx, y: transform.ty))
         }
     }
-    
+
     fileprivate func detectGoal(_ controller: CameraViewController, _ buffer: CMSampleBuffer, _ orientation: CGImagePropertyOrientation) throws {
         // This is where we detect the goal.
         let visionHandler = VNImageRequestHandler(cmSampleBuffer: buffer, orientation: orientation, options: [:])
         try visionHandler.perform([goalDetectionRequest])
         var rect: CGRect?
         var visionRect = CGRect.null
+        var rawResults: [VNDetectedObjectObservation] = []
+        var chosenConfidence: VNConfidence = 0
         if let results = goalDetectionRequest.results as? [VNDetectedObjectObservation] {
+            rawResults = results
             // Filter out classification results with low confidence
             let filteredResults = results.filter { $0.confidence > goalDetectionMinConfidence }
-            // Since the model is trained to detect only one object class (the goal)
-            // there is no need to look at labels. If there is at least one result - we got the goal.
-            if !filteredResults.isEmpty {
-                visionRect = filteredResults[0].boundingBox
+            // If a goal side has been selected, prefer detections on that side.
+            let sideFilteredResults = filteredResults.filter { observation in
+                guard let selectedSide = self.selectedGoalSide else {
+                    return true
+                }
+                let midX = observation.boundingBox.midX
+                switch selectedSide {
+                case .left:
+                    return midX <= 0.5
+                case .right:
+                    return midX >= 0.5
+                }
+            }
+            let chosenResults = sideFilteredResults.isEmpty ? filteredResults : sideFilteredResults
+            if !chosenResults.isEmpty {
+                visionRect = chosenResults[0].boundingBox
                 rect = controller.viewRectForVisionRect(visionRect)
+                chosenConfidence = chosenResults[0].confidence
             }
         }
+        updateDetectorDebugLabel(rawResults: rawResults, chosenConfidence: chosenConfidence)
         // Show goal placement guide only when using camera feed.
         if gameManager.recordedVideoSource == nil {
-            let guideVisionRect = CGRect(x: 0.7, y: 0.3, width: 0.28, height: 0.3)
-            let guideRect = controller.viewRectForVisionRect(guideVisionRect)
-            updateBoundingBox(goalLocationGuide, withViewRect: guideRect, visionRect: guideVisionRect)
+            if let guideVisionRect = guideVisionRectForSelectedSide {
+                let guideRect = controller.viewRectForVisionRect(guideVisionRect)
+                updateBoundingBox(goalLocationGuide, withViewRect: guideRect, visionRect: guideVisionRect)
+            } else {
+                DispatchQueue.main.async {
+                    self.goalLocationGuide.isHidden = true
+                }
+            }
         }
         updateBoundingBox(goalBoundingBox, withViewRect: rect, visionRect: visionRect)
         // If rect is nil we need to keep looking for the board, otherwise check the goal placement
         self.setupStage = (rect == nil) ? .detectingGoal : .detectingGoalPlacement
     }
-    
+
     private func detectGoalContours(_ controller: CameraViewController, _ buffer: CMSampleBuffer, _ orientation: CGImagePropertyOrientation) throws {
         let visionHandler = VNImageRequestHandler(cmSampleBuffer: buffer, orientation: orientation, options: [:])
         let contoursRequest = VNDetectContoursRequest()
         contoursRequest.contrastAdjustment = 1.6 // Adjust contrast for better results
-        contoursRequest.regionOfInterest = goalBoundingBox.visionRect
-        
+        let roi = clampedToUnitRect(goalBoundingBox.visionRect)
+        guard roi.width > 0, roi.height > 0 else { return }
+        contoursRequest.regionOfInterest = roi
+
         try visionHandler.perform([contoursRequest])
-        
+
         if let result = contoursRequest.results?.first as? VNContoursObservation {
             // Analyze detected contours
             guard let goalFramePath = analyzeGoalContours(result.topLevelContours) else {
                 return
             }
-            
-            DispatchQueue.main.sync {
-                // Save goal region
-                self.gameManager.goalRegion = goalBoundingBox.frame
-                
-                // Calculate goal length based on the bounding box of the detected frame
-                let crossbarNormalizedBB = goalFramePath.boundingBox
-                let crossbarSize = CGSize(width: crossbarNormalizedBB.width * goalBoundingBox.frame.width,
-                                          height: crossbarNormalizedBB.height * goalBoundingBox.frame.height)
-                let goalLength = hypot(crossbarSize.width, crossbarSize.height)
-                self.gameManager.pointToMeterMultiplier = GameConstants.goalLength / Double(goalLength)
-                
-                // Save the preview image for reference
+
+            DispatchQueue.main.async {
+                self.gameManager.goalRegion = self.goalBoundingBox.frame
+                // Convert pixels to meters using the ML-detected goal width (stable frame to frame,
+                // unlike the contour bounding box). 7.32m is the regulation distance between posts.
+                self.gameManager.pointToMeterMultiplier = GameConstants.goalLength / Double(self.goalBoundingBox.frame.width)
+
                 if let imageBuffer = CMSampleBufferGetImageBuffer(buffer) {
-                    let imageData = CIImage(cvImageBuffer: imageBuffer).oriented(orientation)
-                    self.gameManager.previewImage = UIImage(ciImage: imageData)
+                    // Render the CIImage to a real CGImage right now. Don't store a CIImage-backed
+                    // UIImage — those defer GPU rendering until first use, which can crash later when
+                    // jpegData() forces the pipeline against a recycled/invalid camera buffer.
+                    let ciImage = CIImage(cvImageBuffer: imageBuffer).oriented(orientation)
+                    let context = CIContext(options: nil)
+                    if let cgImage = context.createCGImage(ciImage, from: ciImage.extent) {
+                        self.gameManager.previewImage = UIImage(cgImage: cgImage)
+                    }
                 }
-                
-                // Highlight the detected goal frame
-                goalBoundingBox.visionPath = goalFramePath
-                goalBoundingBox.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.199807363)
-                
-                // Move the game state forward
+
+                self.goalBoundingBox.visionPath = goalFramePath
+                self.goalBoundingBox.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.199807363)
                 self.gameManager.stateMachine.enter(GameManager.DetectedGoalState.self)
             }
         }
+    }
+
+    private func extractGoalLineCandidates(from contours: [VNContour]) -> [GoalLineCandidate] {
+        var candidates: [GoalLineCandidate] = []
+
+        for contour in contours {
+            let points = contour.normalizedPoints.map { CGPoint(x: CGFloat($0.x), y: CGFloat($0.y)) }
+            guard points.count >= 2 else { continue }
+
+            for (p1, p2) in zip(points, points.dropFirst()) {
+                let dx = p2.x - p1.x
+                let dy = p2.y - p1.y
+                let length = hypot(dx, dy)
+
+                guard length > 0.02 else { continue }
+
+                let angle = atan2(dy, dx)
+                let midpoint = CGPoint(x: (p1.x + p2.x) * 0.5, y: (p1.y + p2.y) * 0.5)
+
+                candidates.append(
+                    GoalLineCandidate(
+                        start: p1,
+                        end: p2,
+                        length: length,
+                        angle: angle,
+                        midpoint: midpoint,
+                        score: length
+                    )
+                )
+            }
+        }
+
+        return candidates
+    }
+
+    private func selectBestTopBar(from candidates: [GoalLineCandidate]) -> GoalLineCandidate? {
+        let horizontalTolerance: CGFloat = .pi / 7   // about 25 degrees
+
+        return candidates
+            .filter { candidate in
+                let isHorizontal = abs(candidate.angle) < horizontalTolerance ||
+                    abs(abs(candidate.angle) - .pi) < horizontalTolerance
+                let isUpperHalf = candidate.midpoint.y < 0.7
+                return isHorizontal && isUpperHalf
+            }
+            .max(by: { $0.score < $1.score })
+    }
+
+    private func selectBestPost(from candidates: [GoalLineCandidate],
+                                side: GoalSide,
+                                topBar: GoalLineCandidate) -> GoalLineCandidate? {
+        let verticalTolerance: CGFloat = .pi / 7   // about 25 degrees
+
+        return candidates
+            .filter { candidate in
+                let isVertical = abs(abs(candidate.angle) - (.pi / 2)) < verticalTolerance
+                guard isVertical else { return false }
+
+                switch side {
+                case .left:
+                    return candidate.midpoint.x < topBar.midpoint.x
+                case .right:
+                    return candidate.midpoint.x > topBar.midpoint.x
+                }
+            }
+            .max(by: { $0.score < $1.score })
+    }
+
+    private func lowerEndpoint(of line: GoalLineCandidate) -> CGPoint {
+        line.start.y > line.end.y ? line.start : line.end
+    }
+
+    private func intersection(_ l1: GoalLineCandidate, _ l2: GoalLineCandidate) -> CGPoint? {
+        let x1 = l1.start.x, y1 = l1.start.y
+        let x2 = l1.end.x, y2 = l1.end.y
+        let x3 = l2.start.x, y3 = l2.start.y
+        let x4 = l2.end.x, y4 = l2.end.y
+
+        let denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+        guard abs(denom) > 0.000001 else { return nil }
+
+        let px = ((x1 * y2 - y1 * x2) * (x3 - x4) -
+                  (x1 - x2) * (x3 * y4 - y3 * x4)) / denom
+
+        let py = ((x1 * y2 - y1 * x2) * (y3 - y4) -
+                  (y1 - y2) * (x3 * y4 - y3 * x4)) / denom
+
+        return CGPoint(x: px, y: py)
+    }
+
+    private func updateDetectorDebugLabel(rawResults: [VNDetectedObjectObservation], chosenConfidence: VNConfidence) {
+        let stageName: String
+        switch setupStage {
+        case .detectingGoal: stageName = "locating"
+        case .detectingGoalPlacement: stageName = "placing"
+        case .detectingSceneStability: stageName = "stabilizing"
+        case .detectingGoalContours: stageName = "contouring"
+        case .setupComplete: stageName = "complete"
+        }
+        let sorted = rawResults.sorted(by: { $0.confidence > $1.confidence })
+        let topConf = sorted.first?.confidence ?? 0
+        let secondConf = sorted.dropFirst().first?.confidence ?? 0
+        let chosenText = chosenConfidence > 0 ? String(format: "%.2f", chosenConfidence) : "–"
+        let text = String(format: " stage: %@\n raw: %d  top: %.2f  #2: %.2f\n chosen: %@  thresh: %.2f ",
+                          stageName, rawResults.count, topConf, secondConf, chosenText, goalDetectionMinConfidence)
+        DispatchQueue.main.async {
+            self.detectorDebugLabel.text = text
+        }
+    }
+
+    private func clampedToUnitRect(_ rect: CGRect) -> CGRect {
+        let x = max(0, min(rect.origin.x, 1))
+        let y = max(0, min(rect.origin.y, 1))
+        let maxX = max(0, min(rect.maxX, 1))
+        let maxY = max(0, min(rect.maxY, 1))
+        return CGRect(x: x,
+                      y: y,
+                      width: max(0, maxX - x),
+                      height: max(0, maxY - y))
     }
 }
 

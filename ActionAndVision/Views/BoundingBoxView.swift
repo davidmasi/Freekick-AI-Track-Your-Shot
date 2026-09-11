@@ -73,7 +73,10 @@ class BoundingBoxView: UIView, AnimatedTransitioning {
     }
     
     func containedInside(_ otherBox: BoundingBoxView) -> Bool {
-        return otherBox.frame.contains(frame)
+        let intersection = otherBox.frame.intersection(frame)
+        guard !intersection.isNull, frame.width > 0, frame.height > 0 else { return false }
+        let overlapRatio = (intersection.width * intersection.height) / (frame.width * frame.height)
+        return overlapRatio >= 0.75
     }
     
     private func updatePathLayer() {

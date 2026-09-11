@@ -18,6 +18,24 @@ class SourcePickerViewController: UIViewController {
         super.viewDidLoad()
         gameManager.stateMachine.enter(GameManager.InactiveState.self)
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Auto-forward when EITHER:
+        //   - recordedVideoSource is set (Recordings flow, or upload)
+        //   - directToLiveCamera is set (non-dev Start Session flow — see HomeViewController.playTapped)
+        // Consume directToLiveCamera on the way through so it can't linger and mis-fire next time.
+        let shouldForwardToLive = gameManager.directToLiveCamera
+        if gameManager.recordedVideoSource != nil || shouldForwardToLive {
+            if shouldForwardToLive { gameManager.directToLiveCamera = false }
+            performSegue(withIdentifier: "ShowRootControllerSegue", sender: self)
+        }
+    }
     
     @IBAction func handleUploadVideoButton(_ sender: Any) {
         let docPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.movie], asCopy: true)

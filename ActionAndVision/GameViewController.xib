@@ -192,19 +192,19 @@
                         <constraint firstAttribute="height" constant="100" id="r1G-Z3-fZ6"/>
                     </constraints>
                 </view>
-                <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="102" placeholderIntrinsicHeight="60" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="6Wh-Kn-rJV" userLabel="Throw Metrics Stack View">
-                    <rect key="frame" x="320.5" y="248" width="178.5" height="60"/>
+                <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="102" placeholderIntrinsicHeight="60" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="6Wh-Kn-rJV" userLabel="Throw Metrics Stack View">
+                    <rect key="frame" x="320" y="248" width="185" height="60"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="0.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lC1-1e-SbE">
-                            <rect key="frame" x="0.0" y="0.0" width="4" height="60"/>
+                            <rect key="frame" x="0.0" y="0.0" width="4.5" height="60"/>
                             <fontDescription key="fontDescription" name="BanglaSangamMN-Bold" family="Bangla Sangam MN" pointSize="22"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="84" placeholderIntrinsicHeight="26.5" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gCq-Kk-zWu">
-                            <rect key="frame" x="8" y="0.0" width="84" height="60"/>
+                            <rect key="frame" x="10.5" y="0.0" width="84" height="60"/>
                             <attributedString key="attributedText">
-                                <fragment content="SKIBIDI BIDEN BIDENB">
+                                <fragment content="SKIBIDI BIDEN BIDEN">
                                     <attributes>
                                         <color key="NSBackgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="NSColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -216,7 +216,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jEI-2d-UcK">
-                            <rect key="frame" x="96" y="0.0" width="54.5" height="60"/>
+                            <rect key="frame" x="100.5" y="0.0" width="54.5" height="60"/>
                             <attributedString key="attributedText">
                                 <fragment content="None">
                                     <attributes>
@@ -230,7 +230,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U5g-lX-W73">
-                            <rect key="frame" x="154.5" y="0.0" width="24" height="60"/>
+                            <rect key="frame" x="161" y="0.0" width="24" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <attributedString key="attributedText">
@@ -272,7 +272,7 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="fDY-4R-nNf" secondAttribute="bottom" constant="10" id="kRB-Ug-6lM"/>
                 <constraint firstItem="eWl-oS-pxq" firstAttribute="bottom" secondItem="C9r-Fe-uZ5" secondAttribute="top" id="lZ9-lw-OiX"/>
                 <constraint firstItem="6Wh-Kn-rJV" firstAttribute="centerY" secondItem="X0K-gv-yFG" secondAttribute="top" constant="-18" id="nrf-LF-Imu"/>
-                <constraint firstItem="6Wh-Kn-rJV" firstAttribute="trailing" secondItem="eWl-oS-pxq" secondAttribute="trailing" constant="228" id="s6H-bY-kbY"/>
+                <constraint firstItem="6Wh-Kn-rJV" firstAttribute="trailing" secondItem="eWl-oS-pxq" secondAttribute="trailing" constant="234" id="s6H-bY-kbY"/>
                 <constraint firstItem="Yvc-57-ek8" firstAttribute="width" secondItem="eWl-oS-pxq" secondAttribute="width" constant="-16" id="uGc-9v-JnX"/>
                 <constraint firstItem="xSn-62-KuW" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="vJI-ZI-E8l"/>
                 <constraint firstItem="X0K-gv-yFG" firstAttribute="centerY" secondItem="fDY-4R-nNf" secondAttribute="centerY" id="vun-yc-FgB"/>

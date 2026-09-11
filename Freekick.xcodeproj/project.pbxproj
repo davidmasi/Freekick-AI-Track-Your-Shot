@@ -21,11 +21,18 @@
 		5FD9A16923ED9DE5004A8F31 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD9A16823ED9DE5004A8F31 /* GameManager.swift */; };
 		5FF06753243E619F0021D743 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FF06752243E619E0021D743 /* CameraViewController.xib */; };
 		5FF06755243E88EF0021D743 /* SourcePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF06754243E88EF0021D743 /* SourcePickerViewController.swift */; };
+		6349ABAC2FC8B3A900F8BF7C /* SessionRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6349ABAA2FC8B3A800F8BF7C /* SessionRecorder.swift */; };
+		6349ABAD2FC8B3A900F8BF7C /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6349ABAB2FC8B3A900F8BF7C /* SessionStore.swift */; };
 		635E766C2D134D220085ECC7 /* ShotClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 635E766B2D134D220085ECC7 /* ShotClassifier.mlmodel */; };
 		636137842D135E1E00685FE9 /* GoalDetector.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 636137832D135E1E00685FE9 /* GoalDetector.mlmodel */; };
+		636A35192FBE99DF00109D58 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 636A35162FBE99DE00109D58 /* Inter-Bold.ttf */; };
+		636A351A2FBE99DF00109D58 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 636A35172FBE99DF00109D58 /* Inter-ExtraBold.ttf */; };
+		636A351C2FBE9A1900109D58 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 636A351B2FBE9A1900109D58 /* Inter-Regular.ttf */; };
 		638EBA8F2D406BE500B26F37 /* freekickExample.gif in Resources */ = {isa = PBXBuildFile; fileRef = 638EBA8E2D406BE500B26F37 /* freekickExample.gif */; };
 		6393D3222D22751F0091449B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6393D3212D22751F0091449B /* MainViewController.swift */; };
 		6393D3242D227FDE0091449B /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6393D3232D227FDE0091449B /* UIImageView+Extension.swift */; };
+		63ECC9F7300191B100BA4400 /* RecordingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ECC9F6300191B100BA4400 /* RecordingsViewController.swift */; };
+		63ECC9FB30048D5A00BA4400 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ECC9FA30048D5A00BA4400 /* HomeViewController.swift */; };
 		DF1A92A623E7575A00A9FD49 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1A92A523E7575A00A9FD49 /* Common.swift */; };
 		DF3EC82D23D65E340007EAE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3EC82C23D65E340007EAE9 /* AppDelegate.swift */; };
 		DF3EC82F23D65E340007EAE9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3EC82E23D65E340007EAE9 /* SceneDelegate.swift */; };
@@ -55,11 +62,18 @@
 		5FD9A16823ED9DE5004A8F31 /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
 		5FF06752243E619E0021D743 /* CameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
 		5FF06754243E88EF0021D743 /* SourcePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcePickerViewController.swift; sourceTree = "<group>"; };
-		635E766B2D134D220085ECC7 /* ShotClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ShotClassifier.mlmodel; sourceTree = "<group>"; };
+		6349ABAA2FC8B3A800F8BF7C /* SessionRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionRecorder.swift; sourceTree = "<group>"; };
+		6349ABAB2FC8B3A900F8BF7C /* SessionStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		635E766B2D134D220085ECC7 /* ShotClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = ShotClassifier.mlmodel; path = /Users/david/Desktop/F/Freekick/ActionAndVision/ShotClassifier.mlmodel; sourceTree = "<absolute>"; };
 		636137832D135E1E00685FE9 /* GoalDetector.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GoalDetector.mlmodel; sourceTree = "<group>"; };
-		638EBA8E2D406BE500B26F37 /* freekickExample.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = freekickExample.gif; path = ../../freekickExample.gif; sourceTree = "<group>"; };
+		636A35162FBE99DE00109D58 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
+		636A35172FBE99DF00109D58 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
+		636A351B2FBE9A1900109D58 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
+		638EBA8E2D406BE500B26F37 /* freekickExample.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = freekickExample.gif; path = /Users/david/Desktop/F/Freekick/ActionAndVision/freekickExample.gif; sourceTree = "<absolute>"; };
 		6393D3212D22751F0091449B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		6393D3232D227FDE0091449B /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		63ECC9F6300191B100BA4400 /* RecordingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordingsViewController.swift; sourceTree = "<group>"; };
+		63ECC9FA30048D5A00BA4400 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		DF1A92A523E7575A00A9FD49 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		DF3EC82923D65E340007EAE9 /* Freekick.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Freekick.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF3EC82C23D65E340007EAE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -129,6 +143,10 @@
 		DF3EC82B23D65E340007EAE9 /* ActionAndVision */ = {
 			isa = PBXGroup;
 			children = (
+				63ECC9FA30048D5A00BA4400 /* HomeViewController.swift */,
+				63ECC9F6300191B100BA4400 /* RecordingsViewController.swift */,
+				6349ABAA2FC8B3A800F8BF7C /* SessionRecorder.swift */,
+				6349ABAB2FC8B3A900F8BF7C /* SessionStore.swift */,
 				DF3EC82C23D65E340007EAE9 /* AppDelegate.swift */,
 				5FD9A16823ED9DE5004A8F31 /* GameManager.swift */,
 				DF3EC82E23D65E340007EAE9 /* SceneDelegate.swift */,
@@ -142,13 +160,16 @@
 				DF1A92A523E7575A00A9FD49 /* Common.swift */,
 				6393D3232D227FDE0091449B /* UIImageView+Extension.swift */,
 				5F982D27249121A5006534BC /* Views */,
-				DF3EC83223D65E340007EAE9 /* Main.storyboard */,
 				5FF06752243E619E0021D743 /* CameraViewController.xib */,
 				5F1EC07723EC9EA100E35618 /* SetupViewController.xib */,
 				DF3EC84423D669FD0007EAE9 /* GameViewController.xib */,
 				DF907A5524161D2A00AE0814 /* SummaryViewController.xib */,
+				636A351B2FBE9A1900109D58 /* Inter-Regular.ttf */,
+				636A35162FBE99DE00109D58 /* Inter-Bold.ttf */,
+				636A35172FBE99DF00109D58 /* Inter-ExtraBold.ttf */,
 				DF3EC83823D65E390007EAE9 /* Assets.xcassets */,
 				638EBA8E2D406BE500B26F37 /* freekickExample.gif */,
+				DF3EC83223D65E340007EAE9 /* Main.storyboard */,
 				DF3EC83A23D65E390007EAE9 /* LaunchScreen.storyboard */,
 				DF3EC83D23D65E390007EAE9 /* Info.plist */,
 				635E766B2D134D220085ECC7 /* ShotClassifier.mlmodel */,
@@ -217,11 +238,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FF06753243E619F0021D743 /* CameraViewController.xib in Resources */,
+				636A351A2FBE99DF00109D58 /* Inter-ExtraBold.ttf in Resources */,
 				DF3EC84623D669FD0007EAE9 /* GameViewController.xib in Resources */,
 				5F1EC07823EC9EA100E35618 /* SetupViewController.xib in Resources */,
 				DF3EC83C23D65E390007EAE9 /* LaunchScreen.storyboard in Resources */,
 				DF3EC83923D65E390007EAE9 /* Assets.xcassets in Resources */,
+				636A35192FBE99DF00109D58 /* Inter-Bold.ttf in Resources */,
 				DF3EC83423D65E340007EAE9 /* Main.storyboard in Resources */,
+				636A351C2FBE9A1900109D58 /* Inter-Regular.ttf in Resources */,
 				DF907A5724161D2A00AE0814 /* SummaryViewController.xib in Resources */,
 				638EBA8F2D406BE500B26F37 /* freekickExample.gif in Resources */,
 			);
@@ -234,19 +258,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6349ABAC2FC8B3A900F8BF7C /* SessionRecorder.swift in Sources */,
 				6393D3222D22751F0091449B /* MainViewController.swift in Sources */,
 				DF3EC84723D669FD0007EAE9 /* GameViewController.swift in Sources */,
 				635E766C2D134D220085ECC7 /* ShotClassifier.mlmodel in Sources */,
 				5FF06755243E88EF0021D743 /* SourcePickerViewController.swift in Sources */,
 				5F982D2B2491233C006534BC /* BoundingBoxView.swift in Sources */,
 				5FD9A16923ED9DE5004A8F31 /* GameManager.swift in Sources */,
+				63ECC9F7300191B100BA4400 /* RecordingsViewController.swift in Sources */,
 				5F3A4A5023F2F370009E9DF6 /* RootViewController.swift in Sources */,
 				DF3EC83123D65E340007EAE9 /* CameraViewController.swift in Sources */,
 				5F982D2D24912A75006534BC /* JointSegmentView.swift in Sources */,
+				63ECC9FB30048D5A00BA4400 /* HomeViewController.swift in Sources */,
 				5F982D2924912200006534BC /* AnimatedTransitioning.swift in Sources */,
 				DF907A5624161D2A00AE0814 /* SummaryViewController.swift in Sources */,
 				5F982D2F24912B53006534BC /* TrajectoryView.swift in Sources */,
 				DF3EC82D23D65E340007EAE9 /* AppDelegate.swift in Sources */,
+				6349ABAD2FC8B3A900F8BF7C /* SessionStore.swift in Sources */,
 				DF3EC82F23D65E340007EAE9 /* SceneDelegate.swift in Sources */,
 				636137842D135E1E00685FE9 /* GoalDetector.mlmodel in Sources */,
 				5F982D3124912CE4006534BC /* DashboardView.swift in Sources */,

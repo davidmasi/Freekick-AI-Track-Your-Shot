@@ -37,7 +37,7 @@ class GameManager {
     class SetupCameraState: State {
     }
     
-    class detectingGoalState: State {
+    class DetectingGoalState: State {
     }
     
     class DetectedGoalState: State {
@@ -63,10 +63,21 @@ class GameManager {
     let stateMachine: GKStateMachine
     var goalRegion = CGRect.null
     var recordedVideoSource: AVAsset?
+    /// One-shot flag set by Home before pushing the flow. Tells SourcePicker to auto-forward to
+    /// the live-camera RootController instead of showing its choice screen. SourcePicker resets
+    /// this back to false as soon as it consumes it.
+    var directToLiveCamera: Bool = false
+    /// Set when the user launches a replay of an already-saved recording (from Home thumbnail or
+    /// the Recordings list). Tells the Summary screen this is a re-analysis so it can offer an
+    /// "Update Stats" button that overwrites the existing SessionRecord instead of creating a new
+    /// one. nil for live-camera sessions and ad-hoc uploaded videos.
+    var replayingRecordID: UUID?
+    var currentSessionURL: URL?
     var playerStats = PlayerStats()
     var lastKickMetrics = KickMetrics()
     var pointToMeterMultiplier = Double.nan
     var previewImage = UIImage()
+    var hasSavedToRecordings = false
     
     static var shared = GameManager()
     
@@ -74,11 +85,11 @@ class GameManager {
         // Possible states with valid next states.
         let states = [
             InactiveState([SetupCameraState.self]),
-            SetupCameraState([detectingGoalState.self]),
-            detectingGoalState([DetectedGoalState.self]),
-            DetectedGoalState([DetectingPlayerState.self]),
-            DetectingPlayerState([DetectedPlayerState.self]),
-            DetectedPlayerState([TrackKicksState.self]),
+            SetupCameraState([DetectingGoalState.self]),
+            DetectingGoalState([DetectedGoalState.self]),
+            DetectedGoalState([DetectingPlayerState.self, ShowSummaryState.self]),
+            DetectingPlayerState([DetectedPlayerState.self, ShowSummaryState.self]),
+            DetectedPlayerState([TrackKicksState.self, ShowSummaryState.self]),
             TrackKicksState([KickCompletedState.self, ShowSummaryState.self]),
             KickCompletedState([ShowSummaryState.self, TrackKicksState.self]),
             ShowSummaryState([DetectingPlayerState.self])
@@ -95,8 +106,13 @@ class GameManager {
         // Reset all stored values
         goalRegion = .null
         recordedVideoSource = nil
+        directToLiveCamera = false
+        replayingRecordID = nil
+        currentSessionURL = nil
         playerStats = PlayerStats()
+        lastKickMetrics = KickMetrics()
         pointToMeterMultiplier = .nan
+        hasSavedToRecordings = false
         // Remove all observers and enter inactive state.
         let notificationCenter = NotificationCenter.default
         for observer in activeObservers {

@@ -53,6 +53,11 @@ class DashboardView: UIView, AnimatedTransitioning {
         pathLayer.lineCap = .round
         pathLayer.lineWidth = 22
         layer.addSublayer(pathLayer)
+        speedLayer.fillColor = UIColor.clear.cgColor
+        speedLayer.strokeColor = #colorLiteral(red: 0.6078431373, green: 0.9882352941, blue: 0, alpha: 0.7539934132).cgColor
+        speedLayer.lineCap = .round
+        speedLayer.lineWidth = 22
+        layer.addSublayer(speedLayer)
     }
 
     private func updatePathLayer() {
@@ -60,11 +65,5 @@ class DashboardView: UIView, AnimatedTransitioning {
         let circlePath = UIBezierPath(arcCenter: CGPoint(x: halfWidth, y: halfWidth), radius: bounds.width / 2,
                                       startAngle: startAngle, endAngle: endAngle, clockwise: true)
         speedLayer.path = circlePath.cgPath
-        speedLayer.fillColor = UIColor.clear.cgColor
-        speedLayer.strokeColor = #colorLiteral(red: 0.6078431373, green: 0.9882352941, blue: 0, alpha: 0.7539934132).cgColor
-        speedLayer.lineCap = .round
-        speedLayer.lineWidth = 22
-        speedLayer.strokeEnd = 1.0
-        layer.addSublayer(speedLayer)
     }
 }

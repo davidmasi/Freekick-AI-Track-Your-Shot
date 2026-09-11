@@ -27,10 +27,10 @@
             </objects>
             <point key="canvasLocation" x="-8" y="-1317"/>
         </scene>
-        <!--View Controller-->
+        <!--Home View Controller-->
         <scene sceneID="Gk6-i3-8xJ">
             <objects>
-                <viewController id="ZwS-kD-1gM" sceneMemberID="viewController">
+                <viewController id="ZwS-kD-1gM" customClass="HomeViewController" customModule="Freekick" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fRp-Os-NH4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -38,28 +38,8 @@
                             <view contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="HsC-A6-ZMJ">
                                 <rect key="frame" x="16" y="216" width="343" height="380"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="App" translatesAutoresizingMaskIntoConstraints="NO" id="1mc-W9-jxl">
-                                        <rect key="frame" x="109.66666666666669" y="56.333333333333314" width="124" height="124"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="124" id="5Kz-bN-et2"/>
-                                            <constraint firstAttribute="height" constant="124" id="sd9-Td-n3e"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Freekick AI" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MS9-Lf-ioO">
-                                        <rect key="frame" x="99" y="203.33333333333331" width="145" height="34"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track Your Shot, Elevate Your Technique" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9c4-Wk-BFs">
-                                        <rect key="frame" x="18" y="243.66666666666669" width="307" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="98B-HY-VNU">
-                                        <rect key="frame" x="0.0" y="308" width="343" height="50"/>
+                                        <rect key="frame" x="0.0" y="223" width="343" height="50"/>
                                         <color key="backgroundColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="2P7-Y0-6MD"/>
@@ -80,22 +60,36 @@
                                             <segue destination="fRx-Ii-rcN" kind="show" id="qnF-Uq-5jz"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T8B-LH-NWG">
+                                        <rect key="frame" x="0.0" y="289" width="343" height="50"/>
+                                        <color key="backgroundColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="2P7-Y0-6ME"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="343" id="q5a-jr-OVB"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        <inset key="contentEdgeInsets" minX="100" minY="10" maxX="100" maxY="10"/>
+                                        <state key="normal" title="Recordings">
+                                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="MS9-Lf-ioO" firstAttribute="centerX" secondItem="HsC-A6-ZMJ" secondAttribute="centerX" id="13X-wf-PQl"/>
-                                    <constraint firstItem="98B-HY-VNU" firstAttribute="top" relation="greaterThanOrEqual" secondItem="9c4-Wk-BFs" secondAttribute="bottom" constant="8" id="4WL-FG-ryl"/>
+                                    <constraint firstItem="T8B-LH-NWG" firstAttribute="top" secondItem="98B-HY-VNU" secondAttribute="bottom" constant="16" id="2Gu-Y8-5jR"/>
+                                    <constraint firstItem="T8B-LH-NWG" firstAttribute="centerX" secondItem="HsC-A6-ZMJ" secondAttribute="centerX" id="7LG-PB-X9Q"/>
+                                    <constraint firstAttribute="trailing" secondItem="T8B-LH-NWG" secondAttribute="trailing" id="7SM-JZ-P4Q"/>
                                     <constraint firstItem="98B-HY-VNU" firstAttribute="centerX" secondItem="HsC-A6-ZMJ" secondAttribute="centerX" id="8JA-Mb-24R"/>
                                     <constraint firstAttribute="trailing" secondItem="98B-HY-VNU" secondAttribute="trailing" id="8KY-Gt-Tgp"/>
-                                    <constraint firstItem="1mc-W9-jxl" firstAttribute="centerX" secondItem="HsC-A6-ZMJ" secondAttribute="centerX" id="I1q-oS-uXv"/>
-                                    <constraint firstItem="MS9-Lf-ioO" firstAttribute="top" secondItem="1mc-W9-jxl" secondAttribute="bottom" constant="23" id="QXf-It-d2R"/>
-                                    <constraint firstItem="1mc-W9-jxl" firstAttribute="top" secondItem="HsC-A6-ZMJ" secondAttribute="top" priority="990" constant="56" id="Qc4-26-UrF"/>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="T8B-LH-NWG" secondAttribute="bottom" constant="20" symbolic="YES" id="G4U-XW-Q2Z"/>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="98B-HY-VNU" secondAttribute="bottom" constant="20" symbolic="YES" id="Qdc-cL-zCt"/>
-                                    <constraint firstItem="9c4-Wk-BFs" firstAttribute="centerX" secondItem="HsC-A6-ZMJ" secondAttribute="centerX" id="TPa-Pl-YBg"/>
-                                    <constraint firstItem="1mc-W9-jxl" firstAttribute="top" relation="greaterThanOrEqual" secondItem="HsC-A6-ZMJ" secondAttribute="top" constant="20" symbolic="YES" id="eMe-sv-pSs"/>
-                                    <constraint firstItem="98B-HY-VNU" firstAttribute="top" secondItem="9c4-Wk-BFs" secondAttribute="firstBaseline" priority="992" constant="48" id="kG4-re-xIA"/>
-                                    <constraint firstAttribute="bottom" secondItem="98B-HY-VNU" secondAttribute="bottom" priority="991" constant="22" id="pTm-qD-sx2"/>
-                                    <constraint firstItem="9c4-Wk-BFs" firstAttribute="firstBaseline" secondItem="MS9-Lf-ioO" secondAttribute="firstBaseline" constant="30" id="xQw-UQ-TL2"/>
+                                    <constraint firstAttribute="bottom" secondItem="98B-HY-VNU" secondAttribute="bottom" priority="991" constant="107" id="pTm-qD-sx2"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="9" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a8e-66-Fur">
@@ -110,6 +104,18 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Freekick" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MS9-Lf-ioO">
+                                <rect key="frame" x="28" y="101" width="112" height="34"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shot Velocity Tracker for Soccer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9c4-Wk-BFs">
+                                <rect key="frame" x="28" y="143" width="245" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="trU-nY-E4I"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
@@ -117,12 +123,17 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                             <constraint firstItem="a8e-66-Fur" firstAttribute="centerX" secondItem="HsC-A6-ZMJ" secondAttribute="centerX" id="0Ao-0D-ow4"/>
                             <constraint firstItem="HsC-A6-ZMJ" firstAttribute="centerX" secondItem="fRp-Os-NH4" secondAttribute="centerX" id="0C6-BU-Duf"/>
                             <constraint firstItem="HsC-A6-ZMJ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="trU-nY-E4I" secondAttribute="top" id="1Yr-Gt-RAh"/>
+                            <constraint firstItem="98B-HY-VNU" firstAttribute="top" secondItem="9c4-Wk-BFs" secondAttribute="firstBaseline" constant="279.66666666666663" id="5Ve-WC-oae"/>
                             <constraint firstItem="a8e-66-Fur" firstAttribute="leading" secondItem="trU-nY-E4I" secondAttribute="leading" constant="38" id="AOT-Fe-lma"/>
+                            <constraint firstItem="9c4-Wk-BFs" firstAttribute="centerX" secondItem="fRp-Os-NH4" secondAttribute="centerX" constant="-37" id="NX1-oj-Bfv"/>
                             <constraint firstItem="trU-nY-E4I" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="HsC-A6-ZMJ" secondAttribute="trailing" id="T8u-VD-XK9"/>
+                            <constraint firstItem="MS9-Lf-ioO" firstAttribute="top" secondItem="trU-nY-E4I" secondAttribute="top" constant="51" id="VMj-dw-LML"/>
                             <constraint firstItem="HsC-A6-ZMJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="trU-nY-E4I" secondAttribute="leading" id="Xdg-U1-L9M"/>
                             <constraint firstItem="a8e-66-Fur" firstAttribute="top" secondItem="HsC-A6-ZMJ" secondAttribute="bottom" constant="8" id="aTT-Pp-TIn"/>
+                            <constraint firstItem="MS9-Lf-ioO" firstAttribute="centerX" secondItem="fRp-Os-NH4" secondAttribute="centerX" constant="-103.5" id="gqo-5i-45g"/>
                             <constraint firstItem="HsC-A6-ZMJ" firstAttribute="centerY" secondItem="fRp-Os-NH4" secondAttribute="centerY" id="jZz-m9-SGn"/>
                             <constraint firstItem="trU-nY-E4I" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="HsC-A6-ZMJ" secondAttribute="bottom" id="pjC-Zk-tEy"/>
+                            <constraint firstItem="98B-HY-VNU" firstAttribute="top" relation="greaterThanOrEqual" secondItem="9c4-Wk-BFs" secondAttribute="bottom" constant="8" id="qoZ-oT-Q7X"/>
                             <constraint firstItem="a8e-66-Fur" firstAttribute="bottom" secondItem="trU-nY-E4I" secondAttribute="bottom" id="sDj-Bd-wq5"/>
                         </constraints>
                     </view>
@@ -176,22 +187,22 @@ To ensure your net is always detected, send an image of your goal from the appâ€
         <!--Main View Controller-->
         <scene sceneID="rx1-ca-vqF">
             <objects>
-                <viewController id="fRx-Ii-rcN" customClass="MainViewController" customModule="Freekick" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="fRx-Ii-rcN" customClass="MainViewController" customModule="Freekick" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ghI-B7-XBx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uJS-qV-nIk">
-                                <rect key="frame" x="2.3333333333333428" y="167.66666666666669" width="370.66666666666663" height="556.66666666666652"/>
+                                <rect key="frame" x="0.0" y="167.66666666666669" width="375" height="556.66666666666652"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Setup Instructions" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KYs-Dp-G40">
-                                        <rect key="frame" x="20" y="200.00000000000003" width="350.66666666666669" height="41"/>
+                                        <rect key="frame" x="20" y="208.00000000000003" width="350.66666666666669" height="41"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZTv-5D-Gnl" userLabel="View1">
-                                        <rect key="frame" x="20" y="263.66666666666663" width="157.33333333333334" height="45"/>
+                                        <rect key="frame" x="20" y="263.66666666666663" width="159.66666666666666" height="45"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="753" text="1." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jav-CF-X7K">
                                                 <rect key="frame" x="0.0" y="0.0" width="15" height="24"/>
@@ -199,8 +210,8 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                                                 <color key="textColor" systemColor="secondaryLabelColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Secure your device by placing it on the ground, or by using a tripod." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DcQ-pg-7Ac">
-                                                <rect key="frame" x="19" y="2.6666666666666856" width="298.66666666666669" height="42.333333333333336"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Secure your device by placing it on the ground, or by using a tripod" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DcQ-pg-7Ac">
+                                                <rect key="frame" x="19" y="2.6666666666666856" width="301" height="42.333333333333336"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -217,7 +228,7 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Tv-LH-efO" userLabel="View2">
-                                        <rect key="frame" x="193.33333333333331" y="263.66666666666663" width="157.33333333333331" height="2.3333333333333144"/>
+                                        <rect key="frame" x="195.66666666666663" y="263.66666666666663" width="159.33333333333337" height="2.3333333333333144"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="753" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZLd-qP-ffM">
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
@@ -225,7 +236,7 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="57t-oO-jGf">
-                                                <rect key="frame" x="4" y="2.3333333333333712" width="153.33333333333334" height="0.0"/>
+                                                <rect key="frame" x="4" y="2.3333333333333712" width="155.33333333333334" height="0.0"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -242,7 +253,7 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MW5-1c-jwb" userLabel="View3">
-                                        <rect key="frame" x="20" y="333.66666666666663" width="332.66666666666669" height="45"/>
+                                        <rect key="frame" x="20" y="333.66666666666663" width="335" height="45"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="753" text="2." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XhZ-8D-3zO">
                                                 <rect key="frame" x="0.0" y="0.0" width="18.333333333333332" height="24"/>
@@ -250,8 +261,8 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                                                 <color key="textColor" systemColor="secondaryLabelColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place the net on the right side of the screen and adjust until goal is detected." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hRX-gr-BDt">
-                                                <rect key="frame" x="22.333333333333343" y="2.6666666666666856" width="310.33333333333326" height="42.333333333333336"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place the net on either side of the screen and adjust until goal is detected" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hRX-gr-BDt">
+                                                <rect key="frame" x="22.333333333333343" y="2.6666666666666856" width="312.66666666666663" height="42.333333333333336"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -268,7 +279,7 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qn4-oa-kj7">
-                                        <rect key="frame" x="68.333333333333343" y="493.66666666666674" width="234.00000000000003" height="41"/>
+                                        <rect key="frame" x="70.666666666666686" y="493.66666666666674" width="234" height="41"/>
                                         <color key="backgroundColor" systemColor="systemBlueColor"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         <inset key="contentEdgeInsets" minX="100" minY="10" maxX="100" maxY="10"/>
@@ -286,7 +297,7 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rFn-ZE-7Vz" userLabel="View4">
-                                        <rect key="frame" x="20" y="333.66666666666663" width="326" height="169.33333333333337"/>
+                                        <rect key="frame" x="22.333333333333343" y="333.66666666666663" width="328" height="169.33333333333337"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="753" text="3." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K7k-nt-Yun">
                                                 <rect key="frame" x="0.0" y="73.000000000000057" width="19" height="24"/>
@@ -294,8 +305,8 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                                                 <color key="textColor" systemColor="secondaryLabelColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Begin screen recording and stand in view of the camera on the left side." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8mb-SO-Eao">
-                                                <rect key="frame" x="22" y="41.00000000000005" width="300" height="110.33333333333331"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Position yourself on the opposite side and begin kicking (Max. 8 shots)" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8mb-SO-Eao">
+                                                <rect key="frame" x="22" y="41.00000000000005" width="302" height="110.33333333333331"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -312,7 +323,7 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                                         </constraints>
                                     </view>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="freekickExample.gif" translatesAutoresizingMaskIntoConstraints="NO" id="bbm-Pm-RGU">
-                                        <rect key="frame" x="11" y="-23" width="351" height="196"/>
+                                        <rect key="frame" x="11" y="-53" width="351" height="196"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
@@ -324,31 +335,31 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                                     <constraint firstItem="KYs-Dp-G40" firstAttribute="leading" secondItem="uJS-qV-nIk" secondAttribute="leading" constant="20" symbolic="YES" id="5Oo-sH-rVx"/>
                                     <constraint firstItem="rFn-ZE-7Vz" firstAttribute="leading" secondItem="7Tv-LH-efO" secondAttribute="leading" constant="-173.33333333333331" id="6B5-uf-TQN"/>
                                     <constraint firstItem="K7k-nt-Yun" firstAttribute="firstBaseline" secondItem="XhZ-8D-3zO" secondAttribute="firstBaseline" constant="73" id="BFq-mp-0nm"/>
-                                    <constraint firstItem="jav-CF-X7K" firstAttribute="firstBaseline" secondItem="KYs-Dp-G40" secondAttribute="baseline" constant="50" id="Cpu-fm-4wr"/>
+                                    <constraint firstItem="jav-CF-X7K" firstAttribute="firstBaseline" secondItem="KYs-Dp-G40" secondAttribute="baseline" constant="41.999999999999943" id="Cpu-fm-4wr"/>
                                     <constraint firstItem="7Tv-LH-efO" firstAttribute="leading" secondItem="uJS-qV-nIk" secondAttribute="centerX" constant="8" id="I5w-kO-1Ms"/>
                                     <constraint firstItem="rFn-ZE-7Vz" firstAttribute="trailing" secondItem="7Tv-LH-efO" secondAttribute="trailing" constant="-4.6666666666666288" id="NUJ-Hg-GLu"/>
                                     <constraint firstAttribute="bottom" secondItem="qn4-oa-kj7" secondAttribute="bottom" priority="991" constant="22" id="On4-tx-sEv"/>
                                     <constraint firstItem="MW5-1c-jwb" firstAttribute="trailing" secondItem="ZTv-5D-Gnl" secondAttribute="trailing" constant="175.33333333333334" id="Pde-ok-Kgz"/>
                                     <constraint firstItem="qn4-oa-kj7" firstAttribute="top" secondItem="rFn-ZE-7Vz" secondAttribute="bottom" priority="900" constant="-9.3333333333333712" id="Qa9-cd-tzX"/>
-                                    <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="KYs-Dp-G40" secondAttribute="trailing" id="UZ3-mk-5sI"/>
+                                    <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="KYs-Dp-G40" secondAttribute="trailing" constant="4.3333333333333144" id="UZ3-mk-5sI"/>
                                     <constraint firstItem="qn4-oa-kj7" firstAttribute="centerX" secondItem="uJS-qV-nIk" secondAttribute="centerX" id="X1T-wh-muM"/>
                                     <constraint firstItem="MW5-1c-jwb" firstAttribute="leading" secondItem="ZTv-5D-Gnl" secondAttribute="leading" id="Xeb-wt-5Et"/>
                                     <constraint firstAttribute="centerX" secondItem="ZTv-5D-Gnl" secondAttribute="trailing" constant="8" id="YqF-0T-orK"/>
                                     <constraint firstItem="DcQ-pg-7Ac" firstAttribute="firstBaseline" secondItem="jav-CF-X7K" secondAttribute="firstBaseline" id="ZkB-o2-1bn"/>
                                     <constraint firstItem="ZTv-5D-Gnl" firstAttribute="leading" secondItem="KYs-Dp-G40" secondAttribute="leading" id="eX6-F8-kIJ"/>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="qn4-oa-kj7" secondAttribute="bottom" constant="20" symbolic="YES" id="hqM-of-CcK"/>
-                                    <constraint firstItem="KYs-Dp-G40" firstAttribute="top" secondItem="uJS-qV-nIk" secondAttribute="top" priority="990" constant="56" id="xPM-z5-OO1"/>
+                                    <constraint firstItem="KYs-Dp-G40" firstAttribute="top" secondItem="uJS-qV-nIk" secondAttribute="top" priority="990" constant="208" id="xPM-z5-OO1"/>
                                     <constraint firstItem="XhZ-8D-3zO" firstAttribute="firstBaseline" secondItem="DcQ-pg-7Ac" secondAttribute="baseline" constant="48" id="xnE-hE-gNy"/>
                                     <constraint firstItem="KYs-Dp-G40" firstAttribute="top" relation="greaterThanOrEqual" secondItem="uJS-qV-nIk" secondAttribute="top" constant="200" id="yaM-Cr-J4n"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Double tap the screen to end the game and view summary of shots" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZlD-HS-BC6">
-                                <rect key="frame" x="58" y="92" width="259" height="51"/>
+                                <rect key="frame" x="58" y="293" width="259" height="51"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="51" id="oQ9-om-O1g"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <color key="textColor" systemColor="systemGray3Color"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -356,7 +367,7 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
                             <constraint firstItem="HZD-HD-cHG" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="uJS-qV-nIk" secondAttribute="trailing" id="DPQ-6i-iDc"/>
-                            <constraint firstItem="ZlD-HS-BC6" firstAttribute="top" secondItem="HZD-HD-cHG" secondAttribute="top" constant="42" id="Egx-pe-BMc"/>
+                            <constraint firstItem="ZlD-HS-BC6" firstAttribute="top" secondItem="HZD-HD-cHG" secondAttribute="top" constant="243" id="Egx-pe-BMc"/>
                             <constraint firstItem="uJS-qV-nIk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="HZD-HD-cHG" secondAttribute="leading" id="HCG-1D-bXA"/>
                             <constraint firstItem="uJS-qV-nIk" firstAttribute="centerX" secondItem="ghI-B7-XBx" secondAttribute="centerX" id="Tn4-eO-6B6"/>
                             <constraint firstItem="uJS-qV-nIk" firstAttribute="top" relation="greaterThanOrEqual" secondItem="HZD-HD-cHG" secondAttribute="top" id="UR4-8S-OvI"/>
@@ -437,7 +448,7 @@ To ensure your net is always detected, send an image of your goal from the appâ€
         <!--Source Picker View Controller-->
         <scene sceneID="3cC-4b-et4">
             <objects>
-                <viewController id="Jk8-Wg-m3M" customClass="SourcePickerViewController" customModule="Freekick" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SourcePickerViewController" id="Jk8-Wg-m3M" customClass="SourcePickerViewController" customModule="Freekick" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="szZ-pV-JTr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -446,7 +457,7 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                                 <rect key="frame" x="-15.333333333333343" y="298.33333333333331" width="405.66666666666674" height="215.33333333333331"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QKU-1G-iKv">
-                                        <rect key="frame" x="20" y="20" width="175.33333333333334" height="175.33333333333334"/>
+                                        <rect key="frame" x="210.33333333333331" y="20" width="175.33333333333331" height="175.33333333333334"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="square.and.arrow.up" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="LUg-aJ-tZU">
                                                 <rect key="frame" x="59" y="37.666666666666664" width="57.333333333333343" height="65.666666666666657"/>
@@ -482,7 +493,7 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                                         </connections>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p5s-sv-Ydb">
-                                        <rect key="frame" x="210.33333333333331" y="20" width="175.33333333333331" height="175.33333333333334"/>
+                                        <rect key="frame" x="20" y="20" width="175.33333333333334" height="175.33333333333334"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="video" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="7vw-iP-1rf">
                                                 <rect key="frame" x="52.333333333333343" y="50.000000000000028" width="71" height="47.666666666666686"/>
@@ -516,12 +527,12 @@ To ensure your net is always detected, send an image of your goal from the appâ€
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="p5s-sv-Ydb" secondAttribute="trailing" constant="20" symbolic="YES" id="8Fw-u7-XFI"/>
-                                    <constraint firstItem="QKU-1G-iKv" firstAttribute="leading" secondItem="mkC-7h-Egc" secondAttribute="leading" constant="20" symbolic="YES" id="8jf-GL-UUM"/>
+                                    <constraint firstAttribute="trailing" secondItem="QKU-1G-iKv" secondAttribute="trailing" constant="20" symbolic="YES" id="8Fw-u7-XFI"/>
+                                    <constraint firstItem="p5s-sv-Ydb" firstAttribute="leading" secondItem="mkC-7h-Egc" secondAttribute="leading" constant="20" symbolic="YES" id="8jf-GL-UUM"/>
                                     <constraint firstAttribute="bottom" secondItem="QKU-1G-iKv" secondAttribute="bottom" constant="20" symbolic="YES" id="VSg-Uv-npi"/>
                                     <constraint firstItem="uNg-H9-b3X" firstAttribute="firstBaseline" secondItem="v9e-fK-227" secondAttribute="firstBaseline" id="g68-k7-JdI"/>
                                     <constraint firstItem="QKU-1G-iKv" firstAttribute="top" secondItem="mkC-7h-Egc" secondAttribute="top" constant="20" symbolic="YES" id="g7U-n8-ebx"/>
-                                    <constraint firstItem="p5s-sv-Ydb" firstAttribute="leading" secondItem="QKU-1G-iKv" secondAttribute="trailing" constant="15" id="kfp-ok-fuL"/>
+                                    <constraint firstItem="QKU-1G-iKv" firstAttribute="leading" secondItem="p5s-sv-Ydb" secondAttribute="trailing" constant="15" id="kfp-ok-fuL"/>
                                     <constraint firstItem="p5s-sv-Ydb" firstAttribute="height" secondItem="QKU-1G-iKv" secondAttribute="height" id="lyy-YY-fF5"/>
                                     <constraint firstItem="p5s-sv-Ydb" firstAttribute="width" secondItem="QKU-1G-iKv" secondAttribute="width" id="xhi-LM-ck1"/>
                                 </constraints>
@@ -552,22 +563,24 @@ To ensure your net is always detected, send an image of your goal from the appâ€
         </scene>
     </scenes>
     <resources>
-        <image name="App" width="1024" height="1024"/>
         <image name="freekickExample.gif" width="800" height="450"/>
         <image name="square.and.arrow.up" catalog="system" width="108" height="128"/>
         <image name="video" catalog="system" width="128" height="82"/>
         <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray3Color">
+            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

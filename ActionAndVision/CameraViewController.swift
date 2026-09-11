@@ -18,6 +18,7 @@ class CameraViewController: UIViewController {
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInitiated,
                                                      attributes: [], autoreleaseFrequency: .workItem)
     private let gameManager = GameManager.shared
+    private let sessionRecorder = SessionRecorder(recordAudio: false)
 
     // Live camera feed management
     private var cameraFeedView: CameraFeedView!
@@ -38,6 +39,10 @@ class CameraViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        // Finalize recording if the camera view disappears while recording.
+        if sessionRecorder.isRecording {
+            finishRecordingSession()
+        }
         // Stop capture session if it's running
         cameraFeedSession?.stopRunning()
         // Invalidate display link so it's removed from run loop
@@ -65,7 +70,7 @@ class CameraViewController: UIViewController {
         }
     }
     
-    func setupAVSession() throws {
+    func setupAVSession() {
         checkCameraAuthorizationStatus { [weak self] granted in
             guard granted else {
                 DispatchQueue.main.async {
@@ -83,12 +88,7 @@ class CameraViewController: UIViewController {
             
             // Continue setting up the AV session
             DispatchQueue.main.async {
-                do {
-                    try self?.configureAVSession()
-                } catch {
-                    // Handle any errors
-                    print("Error setting up AV session: \(error)")
-                }
+                try? self?.configureAVSession()
             }
         }
     }
@@ -136,6 +136,7 @@ class CameraViewController: UIViewController {
         }
         let captureConnection = dataOutput.connection(with: .video)
         captureConnection?.preferredVideoStabilizationMode = .standard
+        captureConnection?.videoOrientation = .landscapeRight
         // Always process the frames
         captureConnection?.isEnabled = true
         session.commitConfiguration()
@@ -153,7 +154,11 @@ class CameraViewController: UIViewController {
         // Create and setup video feed view
         cameraFeedView = CameraFeedView(frame: view.bounds, session: session, videoOrientation: videoOrientation)
         setupVideoOutputView(cameraFeedView)
-        cameraFeedSession?.startRunning()
+        
+        // Start capture session on background thread to avoid blocking UI
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self?.cameraFeedSession?.startRunning()
+        }
     }
 
     
@@ -174,6 +179,20 @@ class CameraViewController: UIViewController {
             viewRect = videoRenderView.viewRectConverted(fromNormalizedContentsRect: flippedRect)
         }
         return viewRect
+    }
+
+    private func finishRecordingSession() {
+        guard sessionRecorder.isRecording else { return }
+
+        sessionRecorder.finishRecording { [weak self] result in
+            guard let self = self else { return }
+            // Just record the URL. The SessionRecord commit happens automatically from
+            // SummaryViewController; the tmp .mov is moved to Documents/Recordings/ if the user
+            // taps Save to Recordings.
+            if case let .success(fileURL) = result {
+                self.gameManager.currentSessionURL = fileURL
+            }
+        }
     }
 
     // This helper function is used to convert points returned by Vision to the video content rect coordinates.
@@ -205,6 +224,11 @@ class CameraViewController: UIViewController {
             videoOutputView.topAnchor.constraint(equalTo: view.topAnchor),
             videoOutputView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+
+    private func startRecordingAfterGoalDetected() {
+        guard !sessionRecorder.isRecording, gameManager.recordedVideoSource == nil else { return }
+        try? sessionRecorder.startRecording(outputOrientation: .landscapeRight)
     }
     
     func startReadingAsset(_ asset: AVAsset) {
@@ -290,7 +314,7 @@ class CameraViewController: UIViewController {
                     let stateMachine = self.gameManager.stateMachine
                     if stateMachine.currentState is GameManager.SetupCameraState {
                         // Once we received first buffer we are ready to proceed to the next state
-                        stateMachine.enter(GameManager.detectingGoalState.self)
+                        stateMachine.enter(GameManager.DetectingGoalState.self)
                     }
                 }
             }
@@ -301,28 +325,29 @@ class CameraViewController: UIViewController {
 extension CameraViewController: GameStateChangeObserver {
     func gameManagerDidEnter(state: GameManager.State, from previousState: GameManager.State?) {
         if state is GameManager.SetupCameraState {
-            do {
-                if let video = gameManager.recordedVideoSource {
-                    startReadingAsset(video)
-                } else {
-                    try setupAVSession()
-                }
-            } catch {
-                AppError.display(error, inViewController: self)
+            if let video = gameManager.recordedVideoSource {
+                startReadingAsset(video)
+            } else {
+                setupAVSession()
             }
+        } else if state is GameManager.DetectedGoalState {
+            startRecordingAfterGoalDetected()
+        } else if state is GameManager.ShowSummaryState {
+            finishRecordingSession()
         }
     }
 }
 
 extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        sessionRecorder.appendVideoSampleBuffer(sampleBuffer)
         outputDelegate?.cameraViewController(self, didReceiveBuffer: sampleBuffer, orientation: .up)
         
         DispatchQueue.main.async {
             let stateMachine = self.gameManager.stateMachine
             if stateMachine.currentState is GameManager.SetupCameraState {
                 // Once we received first buffer we are ready to proceed to the next state
-                stateMachine.enter(GameManager.detectingGoalState.self)
+                stateMachine.enter(GameManager.DetectingGoalState.self)
             }
         }
     }

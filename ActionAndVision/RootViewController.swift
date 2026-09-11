@@ -35,6 +35,7 @@ class RootViewController: UIViewController {
         }
         cameraViewController = CameraViewController()
         cameraViewController.view.frame = view.bounds
+        cameraViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addChild(cameraViewController)
         cameraViewController.beginAppearanceTransition(true, animated: true)
         view.addSubview(cameraViewController.view)
@@ -53,8 +54,19 @@ class RootViewController: UIViewController {
         startObservingStateChanges()
         // Make sure close button stays in front of other views.
         view.bringSubviewToFront(closeButton)
+        // Intercept close button taps to provide a confirmation sheet when
+        // the Summary screen is visible. Remove any storyboard targets
+        // and add our own handler so we can decide behavior at runtime.
+        closeButton.removeTarget(nil, action: nil, for: .touchUpInside)
+        closeButton.addTarget(self, action: #selector(closeButtonTapped(_:)), for: .touchUpInside)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Gameplay uses the on-screen X button for exit — nav bar back button would conflict.
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         gameManager.stateMachine.enter(GameManager.SetupCameraState.self)
@@ -63,9 +75,10 @@ class RootViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        // Reset orientation lock when leaving this view controller
+        // Restore the app's default orientation lock (portrait) when leaving gameplay. The rest
+        // of the app is portrait-only per AppDelegate.orientationLock.
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            appDelegate.orientationLock = .all  // Allow all orientations again
+            appDelegate.orientationLock = .portrait
         }
     }
     
@@ -88,6 +101,7 @@ class RootViewController: UIViewController {
         
         if let newOverlay = newOverlayViewController {
             newOverlay.view.frame = overlayParentView.bounds
+            newOverlay.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             addChild(newOverlay)
             newOverlay.beginAppearanceTransition(true, animated: true)
             overlayParentView.addSubview(newOverlay.view)
@@ -97,6 +111,7 @@ class RootViewController: UIViewController {
         
         overlayViewController = newOverlayViewController
     }
+
 }
 
 // MARK: - Handle states that require view controller transitions
@@ -107,7 +122,7 @@ extension RootViewController: GameStateChangeObserver {
         // Create an overlay view controller based on the game state
         let controllerToPresent: UIViewController
         switch state {
-        case is GameManager.detectingGoalState:
+        case is GameManager.DetectingGoalState:
             controllerToPresent = SetupViewController()
         case is GameManager.DetectingPlayerState:
             controllerToPresent = GameViewController()
@@ -150,4 +165,53 @@ extension RootViewController: GameStateChangeObserver {
             }
         }
     }
+}
+
+// MARK: - Close button handling
+extension RootViewController {
+    func exitToMenu() {
+        // If a live-camera recording was made but never committed to Recordings, delete the tmp file.
+        // Without this, .mov files accumulate in tmp/ until iOS cleans them up.
+        if !gameManager.hasSavedToRecordings,
+           let url = gameManager.currentSessionURL,
+           FileManager.default.fileExists(atPath: url.path) {
+            try? FileManager.default.removeItem(at: url)
+        }
+        gameManager.reset()
+        navigationController?.popViewController(animated: true)
+    }
+
+    @objc private func closeButtonTapped(_ sender: UIButton) {
+        let onSummary = overlayViewController is SummaryViewController
+        let shouldWarn = onSummary
+            && !gameManager.hasSavedToRecordings
+            && gameManager.recordedVideoSource == nil
+
+        if shouldWarn {
+            presentUnsavedWarning()
+        } else {
+            exitToMenu()
+        }
+    }
+
+    private func presentUnsavedWarning() {
+        let alert = UIAlertController(
+            title: "Unsaved Recording",
+            message: "You haven't saved this recording.",
+            preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Save to Recordings", style: .default, handler: { _ in
+            self.gameManager.hasSavedToRecordings = true
+            self.exitToMenu()
+        }))
+
+        alert.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { _ in
+            self.exitToMenu()
+        }))
+
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        present(alert, animated: true, completion: nil)
+    }
+
 }

@@ -14,7 +14,7 @@ class ProgressView: UIView, AnimatedTransitioning {
             updatePathLayer()
         }
     }
-    var throwType: KickType = .none {
+    var throwType: KickType = .negative {
         didSet {
             updateThrowTypeIcon()
         }
@@ -40,7 +40,7 @@ class ProgressView: UIView, AnimatedTransitioning {
         throwCount += 1
     }
     
-    private func animateSpeedChart() {
+    private func animateProgress() {
         let xPos = bounds.width * (1 - CGFloat(throwCount) / CGFloat(GameConstants.maxKicks))
         let yPos = bounds.height - progressBarHeight - throwTypeIconSize
         UIView.animate(withDuration: 1, delay: 0.0, options: .curveEaseIn, animations: {
@@ -52,7 +52,7 @@ class ProgressView: UIView, AnimatedTransitioning {
         progressAnimation.toValue = 1
         progressAnimation.fillMode = .forwards
         progressAnimation.isRemovedOnCompletion = false
-        progressLayer.add(progressAnimation, forKey: "animateSpeedChart")
+        progressLayer.add(progressAnimation, forKey: "animateProgress")
         prevPosition = newPosition
     }
 
@@ -71,12 +71,19 @@ class ProgressView: UIView, AnimatedTransitioning {
         pathLayer.lineCap = .round
         pathLayer.lineWidth = progressBarHeight
         layer.addSublayer(pathLayer)
+        progressLayer.fillColor = UIColor.clear.cgColor
+        progressLayer.strokeColor = #colorLiteral(red: 0.6078431373, green: 0.9882352941, blue: 0, alpha: 0.7539934132).cgColor
+        progressLayer.lineCap = .round
+        progressLayer.lineWidth = progressBarHeight
+        layer.addSublayer(progressLayer)
         self.addSubview(throwTypeIcon)
     }
     
     private func updateThrowTypeIcon() {
         throwTypeIcon.alpha = 0.65
-        throwTypeIcon.image = UIImage(named: throwType.rawValue)
+        throwTypeIcon.image = UIImage(named: throwType.imageName)?
+            .withRenderingMode(.alwaysTemplate)
+        throwTypeIcon.tintColor = .white
     }
 
     private func updatePathLayer() {
@@ -85,11 +92,6 @@ class ProgressView: UIView, AnimatedTransitioning {
         linePath.move(to: CGPoint(x: bounds.width, y: (bounds.height - progressBarHeight / 2)))
         linePath.addLine(to: CGPoint(x: newPosition, y: (bounds.height - progressBarHeight / 2)))
         progressLayer.path = linePath.cgPath
-        progressLayer.fillColor = UIColor.clear.cgColor
-        progressLayer.strokeColor = #colorLiteral(red: 0.6078431373, green: 0.9882352941, blue: 0, alpha: 0.7539934132).cgColor
-        progressLayer.lineCap = .round
-        progressLayer.lineWidth = progressBarHeight
-        layer.addSublayer(progressLayer)
-        animateSpeedChart()
+        animateProgress()
     }
 }

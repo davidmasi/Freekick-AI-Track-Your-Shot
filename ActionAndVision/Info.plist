@@ -20,12 +20,18 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>This app uses the camera to analyze the scene.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app uses microphone to analyze the ambient sounds.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app allows to use recorded movies as a video source for Vision algorithms.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app needs permission to save recordings to your photo library when you choose to export sessions.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -59,6 +65,12 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+    	<string>Inter-Regular.ttf</string>
+    	<string>Inter-Bold.ttf</string>
+    	<string>Inter-ExtraBold.ttf</string>
 	</array>
 </dict>
 </plist>

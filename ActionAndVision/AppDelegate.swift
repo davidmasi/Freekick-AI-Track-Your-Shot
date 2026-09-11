@@ -1,17 +1,16 @@
 /*
 See LICENSE folder for this sample’s licensing information.
-
+#KnowYourShot
 Abstract:
 The app's delegate object.
 */
 
 import UIKit
-import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var orientationLock: UIInterfaceOrientationMask = .portrait  // Default is .all, which allows all orientations.
+    var orientationLock: UIInterfaceOrientationMask = .portrait
 
     func application(_ application: UIApplication,
                      supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {

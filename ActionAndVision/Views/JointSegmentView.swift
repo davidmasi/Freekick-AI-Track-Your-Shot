@@ -55,17 +55,22 @@ class JointSegmentView: UIView, AnimatedTransitioning {
         let scaleToBounds = CGAffineTransform(scaleX: bounds.width, y: bounds.height)
         jointPath.removeAllPoints()
         jointSegmentPath.removeAllPoints()
-        // Add all joints and segments
-        for index in 0 ..< jointsOfInterest.count {
-            if let nextJoint = joints[jointsOfInterest[index]] {
-                let nextJointScaled = nextJoint.applying(flipVertical).applying(scaleToBounds)
-                let nextJointPath = UIBezierPath(arcCenter: nextJointScaled, radius: jointRadius,
-                                                 startAngle: CGFloat(0), endAngle: CGFloat.pi * 2, clockwise: true)
-                jointPath.append(nextJointPath)
-                if jointSegmentPath.isEmpty {
-                    jointSegmentPath.move(to: nextJointScaled)
+        let legs: [[VNHumanBodyPoseObservation.JointName]] = [
+            [.rightAnkle, .rightKnee, .rightHip],
+            [.leftAnkle, .leftKnee, .leftHip]
+        ]
+        for leg in legs {
+            var startedLeg = false
+            for jointName in leg {
+                guard let joint = joints[jointName] else { continue }
+                let scaled = joint.applying(flipVertical).applying(scaleToBounds)
+                jointPath.append(UIBezierPath(arcCenter: scaled, radius: jointRadius,
+                                              startAngle: 0, endAngle: .pi * 2, clockwise: true))
+                if !startedLeg {
+                    jointSegmentPath.move(to: scaled)
+                    startedLeg = true
                 } else {
-                    jointSegmentPath.addLine(to: nextJointScaled)
+                    jointSegmentPath.addLine(to: scaled)
                 }
             }
         }

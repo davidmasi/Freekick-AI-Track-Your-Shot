@@ -17,37 +17,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IZ5-zA-g6l">
-                                <rect key="frame" x="141" y="451.5" width="132" height="33"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="Version 0.9">
-                                        <attributes>
-                                            <font key="NSFont" metaFont="system" size="27"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="David Masi" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="IZ5-zA-g6l">
+                                <rect key="frame" x="163" y="824" width="88" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="1rh-Q4-F3p"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="15"/>
+                                <color key="textColor" systemColor="linkColor"/>
+                                <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jXt-RR-ylK">
-                                <rect key="frame" x="114.5" y="393" width="185.5" height="50.5"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="FREEKICK">
-                                        <attributes>
-                                            <font key="NSFont" metaFont="system" size="42"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="computer vision by" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="jXt-RR-ylK">
+                                <rect key="frame" x="146" y="805" width="122" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="x9r-ef-geL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="15"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
+                            <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1024-modified" translatesAutoresizingMaskIntoConstraints="NO" id="LZ5-0B-c7a">
+                                <rect key="frame" x="162" y="403" width="90" height="90"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
-                            <constraint firstItem="IZ5-zA-g6l" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="TFC-G4-06u"/>
-                            <constraint firstItem="IZ5-zA-g6l" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="20" id="izf-ub-EhZ"/>
-                            <constraint firstItem="jXt-RR-ylK" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="p1R-ES-Nep"/>
-                            <constraint firstItem="IZ5-zA-g6l" firstAttribute="top" secondItem="jXt-RR-ylK" secondAttribute="bottom" constant="8" id="uxE-pT-32G"/>
+                            <constraint firstItem="IZ5-zA-g6l" firstAttribute="top" secondItem="jXt-RR-ylK" secondAttribute="bottom" constant="1" id="Oek-r6-Ynb"/>
+                            <constraint firstItem="LZ5-0B-c7a" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="T1G-0Q-B2K"/>
+                            <constraint firstItem="LZ5-0B-c7a" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="T1G-0Q-B2L"/>
+                            <constraint firstItem="LZ5-0B-c7a" firstAttribute="width" constant="90" id="T1G-0Q-B2M"/>
+                            <constraint firstItem="LZ5-0B-c7a" firstAttribute="height" constant="90" id="T1G-0Q-B2N"/>
+                            <constraint firstItem="jXt-RR-ylK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="146" id="YsA-Sx-Ot2"/>
+                            <constraint firstItem="jXt-RR-ylK" firstAttribute="centerX" secondItem="IZ5-zA-g6l" secondAttribute="centerX" id="beo-lJ-wgs"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="IZ5-zA-g6l" secondAttribute="bottom" constant="21" id="fVf-K0-eF3"/>
+                            <constraint firstItem="jXt-RR-ylK" firstAttribute="centerX" secondItem="LZ5-0B-c7a" secondAttribute="centerX" id="gTM-mV-h3c"/>
+                            <constraint firstItem="IZ5-zA-g6l" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="163" id="qOA-lU-5oO"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -57,8 +61,12 @@
         </scene>
     </scenes>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <image name="1024-modified" width="1024" height="1024"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
