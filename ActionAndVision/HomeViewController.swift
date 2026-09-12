@@ -345,7 +345,7 @@ class HomeViewController: UIViewController {
 
         guard let mostRecent = recordings.first else { return }
 
-        let ordinal = ordinalWithinDay(for: mostRecent)
+        _ = ordinalWithinDay(for: mostRecent)
         lastSessionLabel.text = "Last Session: \(formatSessionDate(mostRecent.createdAt, short: true))"
 
         if let url = mostRecent.thumbnailURL, let image = UIImage(contentsOfFile: url.path) {
@@ -940,7 +940,7 @@ class SettingsViewController: UIViewController {
 
         stack.addArrangedSubview(makeSettingCard(
             title: "Extra Stats",
-            description: "Show an additional stats box during gameplay with per-shot details beyond speed and type.",
+            description: "Show an in-game stats overlay with shot angle, time to goal, and distance.",
             toggle: extraStatsToggle,
             initialState: SettingsStore.shared.showExtraStats,
             action: #selector(extraStatsToggled(_:))

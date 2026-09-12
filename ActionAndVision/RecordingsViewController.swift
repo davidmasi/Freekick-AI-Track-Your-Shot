@@ -10,13 +10,13 @@
 import UIKit
 import AVFoundation
 
-class RecordingsViewController: UITableViewController {
+class RecordingsViewController: UIViewController {
 
     private var recordings: [SessionRecord] = []
+    private let tableView = UITableView()
     private let emptyStateLabel = UILabel()
-    // Small "swipe to delete" hint that sits below the last row via tableFooterView. Shown only
-    // when there's at least one recording — hiding it on an empty list keeps the "No recordings
-    // yet" empty state clean.
+    // "Swipe to delete" hint pinned to the bottom safe area so it stays visible while the list
+    // scrolls, rather than sitting below the last row via tableFooterView.
     private let swipeHintLabel = UILabel()
 
     // Date format is now derived per-row via formatSessionDate() so it flips between US
@@ -25,15 +25,27 @@ class RecordingsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Recordings"
-
         view.backgroundColor = .black
+
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .black
         tableView.separatorColor = UIColor.white.withAlphaComponent(0.15)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
         tableView.register(RecordingCell.self, forCellReuseIdentifier: "cell")
+        tableView.dataSource = self
+        tableView.delegate = self
+        view.addSubview(tableView)
 
-        // Empty state
+        swipeHintLabel.translatesAutoresizingMaskIntoConstraints = false
+        swipeHintLabel.text = "Swipe left to delete recording"
+        swipeHintLabel.textColor = UIColor.white.withAlphaComponent(0.4)
+        swipeHintLabel.font = UIFont.systemFont(ofSize: 12)
+        swipeHintLabel.textAlignment = .center
+        swipeHintLabel.backgroundColor = .black
+        swipeHintLabel.isHidden = true
+        view.addSubview(swipeHintLabel)
+
         emptyStateLabel.translatesAutoresizingMaskIntoConstraints = false
         emptyStateLabel.text = "No recordings yet. Use the live camera to get started."
         emptyStateLabel.textColor = .white
@@ -41,18 +53,25 @@ class RecordingsViewController: UITableViewController {
         emptyStateLabel.numberOfLines = 0
         emptyStateLabel.font = UIFont.systemFont(ofSize: 15)
         view.addSubview(emptyStateLabel)
+
         NSLayoutConstraint.activate([
+            // Table fills from the top safe area down to the top of the hint. Doesn't extend
+            // under the hint, so the last row is fully visible when scrolled to the bottom.
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: swipeHintLabel.topAnchor),
+
+            swipeHintLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            swipeHintLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            swipeHintLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            swipeHintLabel.heightAnchor.constraint(equalToConstant: 32),
+
             emptyStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptyStateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             emptyStateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             emptyStateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
         ])
-
-        swipeHintLabel.text = "Swipe left to delete recording"
-        swipeHintLabel.textColor = UIColor.white.withAlphaComponent(0.4)
-        swipeHintLabel.font = UIFont.systemFont(ofSize: 12)
-        swipeHintLabel.textAlignment = .center
-        swipeHintLabel.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
 
         NotificationCenter.default.addObserver(self, selector: #selector(storeChanged), name: .sessionStoreDidChange, object: nil)
         // Reload rows when the units toggle flips so avg/top speed cells re-render in the new unit.
@@ -80,30 +99,8 @@ class RecordingsViewController: UITableViewController {
     private func loadRecordings() {
         recordings = SessionStore.shared.sessions.sorted(by: { $0.createdAt > $1.createdAt })
         emptyStateLabel.isHidden = !recordings.isEmpty
-        tableView.tableFooterView = recordings.isEmpty ? nil : swipeHintLabel
+        swipeHintLabel.isHidden = recordings.isEmpty
         tableView.reloadData()
-    }
-
-    // MARK: - Table view
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recordings.count
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RecordingCell
-        let record = recordings[indexPath.row]
-        cell.configure(with: record)
-        cell.onPlayTapped = { [weak self] in self?.didPickRecording(record) }
-        return cell
-    }
-
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let record = recordings[indexPath.row]
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completion in
-            self?.confirmDelete(record, completion: completion)
-        }
-        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 
     private func confirmDelete(_ record: SessionRecord, completion: @escaping (Bool) -> Void) {
@@ -138,6 +135,28 @@ class RecordingsViewController: UITableViewController {
         navigationController?.pushViewController(sp, animated: true)
     }
 
+}
+
+extension RecordingsViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return recordings.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RecordingCell
+        let record = recordings[indexPath.row]
+        cell.configure(with: record)
+        cell.onPlayTapped = { [weak self] in self?.didPickRecording(record) }
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let record = recordings[indexPath.row]
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completion in
+            self?.confirmDelete(record, completion: completion)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
 }
 
 // MARK: - Cell

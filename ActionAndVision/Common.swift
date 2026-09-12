@@ -16,10 +16,10 @@ enum KickType: String, CaseIterable {
 
     var displayText: String {
         switch self {
-        case .trivela:  return "Trivela!"
+        case .trivela:  return "Trivela "
         case .instep:   return "Instep  "
         case .laces:    return "Laces   "
-        case .negative: return "        "
+        case .negative: return "Null    "
         }
     }
 
@@ -536,12 +536,12 @@ func classifyShot(
     if instepRatioMet && isInstepEligible {
         instepCriteriaMet.append("Crisp strike")
     }
-    // "Body opens on strike" is ML-derived. Skip when the laces "Body over ball" pose criterion
+    // "Body opens up" is ML-derived. Skip when the laces "Body over ball" pose criterion
     // already fired — they measure overlapping body positioning at contact and can double-tag.
     if instepMlProb > confidenceThreshold
         && !lacesCriteriaMet.contains("Body over ball")
         && isInstepEligible {
-        instepCriteriaMet.append("Body opens on strike")
+        instepCriteriaMet.append("Body opens up")
     }
     // "Ball dips" — final velocity is a small fraction of exit velocity, indicating spin/curve-
     // induced deceleration by end of trajectory. Straight-line power drives don't decay this
@@ -840,10 +840,10 @@ func sportTerm() -> String {
 /// anyway so more precision would be false confidence.
 func formatDistance(_ meters: Double) -> String {
     if SettingsStore.shared.useMetricUnits {
-        return String(format: "%.1f m", meters)
+        return String(format: "%.1fm", meters)
     }
     let yards = meters * 1.0936133
-    return String(format: "%.1f yds", yards)
+    return String(format: "%.1fyds", yards)
 }
 
 // MARK: - SettingsStore

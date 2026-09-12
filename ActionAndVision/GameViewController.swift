@@ -224,7 +224,9 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             // user-facing box in that slot; the dev-mode judgment (below) stacks above it.
             criteriaBoxLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
             criteriaBoxLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12),
-            criteriaBoxLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 220),
+            // Fixed width so the box doesn't shrink when a classification has short bullets —
+            // keeps the visual footprint consistent across shot types.
+            criteriaBoxLabel.widthAnchor.constraint(equalToConstant: 220),
             // Extra stats box mirrors criteria box on the opposite corner.
             extraStatsLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -12),
             extraStatsLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12),
@@ -433,7 +435,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             result.append(NSAttributedString(string: line, attributes: isTop ? winnerAttrs : baseAttrs))
         }
         let reliable = metrics.observationCount >= PlayerStats.minObservationsForReliableKick
-        result.append(NSAttributedString(string: " obs: \(metrics.observationCount) \(reliable ? "ok" : "low") ",
+        result.append(NSAttributedString(string: " frames: \(metrics.observationCount) (\(reliable ? "ok" : "low")) ",
                                         attributes: baseAttrs))
         return result
     }
@@ -602,15 +604,15 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     private func updatePoseTrackerLabel(confidence: VNConfidence, observationCount: Int, isTracking: Bool, lost: Bool) {
         let bar = String(repeating: "█", count: min(Int(confidence * 10), 10))
             + String(repeating: "·", count: 10 - min(Int(confidence * 10), 10))
-        let stateLabel: String
+        let statusLabel: String
         if lost {
-            stateLabel = "LOST"
+            statusLabel = "LOST"
         } else {
-            stateLabel = isTracking ? "tracking" : "idle"
+            statusLabel = isTracking ? "tracking" : "idle"
         }
         let reliable = observationCount >= PlayerStats.minObservationsForReliableKick
-        let text = String(format: " pose: %@  %.2f\n state: %@\n obs:  %d %@ ",
-                          bar, confidence, stateLabel, observationCount, reliable ? "ok" : "low")
+        let text = String(format: " signal  %@  %.2f \n status  %@ \n frames  %d (%@) ",
+                          bar, confidence, statusLabel, observationCount, reliable ? "ok" : "low")
         DispatchQueue.main.async {
             self.poseTrackerLabel.text = text
             // Dev-mode only — same rationale as the joint/bounding overlays above.

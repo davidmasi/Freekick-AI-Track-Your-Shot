@@ -12,7 +12,7 @@
             <connections>
                 <outlet property="angleValue" destination="Cn4-aD-fX2" id="5fb-JZ-pTI"/>
                 <outlet property="backgroundImage" destination="opD-Zb-VeF" id="QbD-K2-8f2"/>
-                <outlet property="scoreValue" destination="oE3-SP-LLN" id="AF6-x3-W63"/>
+                <outlet property="topSpeedValue" destination="oE3-SP-LLN" id="AF6-x3-W63"/>
                 <outlet property="speedValue" destination="RgQ-81-qtL" id="aaq-E0-vYy"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -65,13 +65,13 @@
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="34" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SpA-r9-aCW" userLabel="Score Stack View">
                             <rect key="frame" x="533.5" y="0.0" width="266.5" height="57"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Score" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JVi-Xm-hW5">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Top Speed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JVi-Xm-hW5">
                                     <rect key="frame" x="0.0" y="0.0" width="266.5" height="20.5"/>
                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="32/40" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oE3-SP-LLN">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="24.3 MPH" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oE3-SP-LLN">
                                     <rect key="frame" x="0.0" y="23.5" width="266.5" height="33.5"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

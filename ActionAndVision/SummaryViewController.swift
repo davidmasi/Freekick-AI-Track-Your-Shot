@@ -12,7 +12,7 @@ class SummaryViewController: UIViewController {
 
     @IBOutlet weak var speedValue: UILabel!
     @IBOutlet weak var angleValue: UILabel!
-    @IBOutlet weak var scoreValue: UILabel!
+    @IBOutlet weak var topSpeedValue: UILabel!
     @IBOutlet weak var backgroundImage: UIImageView!
 
     private let gameManager = GameManager.shared
@@ -25,7 +25,9 @@ class SummaryViewController: UIViewController {
         setupSessionControls()
         // Three source flows resolve here:
         //   1. Replaying a stored SessionRecord (replayingRecordID != nil) → "Update Stats"
-        //      overwrites the metric fields on the existing record in place.
+        //      overwrites the metric fields on the existing record in place. Gated behind
+        //      developer mode so regular users can't accidentally overwrite session history
+        //      just by replaying a recording.
         //   2. Uploaded ad-hoc video (recordedVideoSource != nil, no record ID) → hide button.
         //      Save-uploaded-video was attempted but the doc-picker's temp copy URL isn't
         //      guaranteed to survive iOS temp cleanup between pick time and save time — the copy
@@ -33,9 +35,13 @@ class SummaryViewController: UIViewController {
         //   3. Live camera capture → "Save to Recordings" moves the tmp .mov file into place
         //      and creates a SessionRecord. Waits for the recorder-finish notification first.
         if gameManager.replayingRecordID != nil {
-            keepButton.setTitle("Update Stats", for: .normal)
-            keepButton.isHidden = false
-            keepButton.isEnabled = true
+            if SettingsStore.shared.developerMode {
+                keepButton.setTitle("Update Stats", for: .normal)
+                keepButton.isHidden = false
+                keepButton.isEnabled = true
+            } else {
+                keepButton.isHidden = true
+            }
             finalizingLabel.isHidden = true
         } else if gameManager.recordedVideoSource != nil {
             keepButton.isHidden = true
@@ -61,9 +67,9 @@ class SummaryViewController: UIViewController {
         // set attributed text on a UILabel
         speedValue.attributedText = speedValueText
         angleValue.text = "\(round(stats.avgReleaseAngle * 100) / 100)°"
-        let score = NSMutableAttributedString(string: "\(stats.totalScore)", attributes: [.foregroundColor: UIColor.white])
-        score.append(NSAttributedString(string: "/\(GameConstants.maxKicks * Scoring.fifteen.rawValue)", attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.65)]))
-        scoreValue.attributedText = score
+        let topSpeedText = NSMutableAttributedString(string: "\(round(stats.topSpeed * 100) / 100)", attributes: speedValueFont)
+        topSpeedText.append(NSAttributedString(string: " MPH", attributes: speedUnitFont))
+        topSpeedValue.attributedText = topSpeedText
     }
 
     private func setupSessionControls() {
