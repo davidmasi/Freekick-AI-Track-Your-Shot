@@ -34,6 +34,24 @@ class SourcePickerViewController: UIViewController {
         if gameManager.recordedVideoSource != nil || shouldForwardToLive {
             if shouldForwardToLive { gameManager.directToLiveCamera = false }
             performSegue(withIdentifier: "ShowRootControllerSegue", sender: self)
+            return
+        }
+        // Manual state (initial dev-mode landing, or a gameplay-cancel return trip):
+        //   - Non-dev: auto-pop to Home. This is the second half of the two-step return from
+        //     gameplay — RootVC pops to here (landscape → landscape, no rotation), and this
+        //     pop takes us the rest of the way to Home where portrait rotation happens on a
+        //     simpler screen than the live-camera view.
+        //   - Dev mode: stay put so the developer can pick a different source. Strip Setup
+        //     Instructions (MainViewController) from the back stack so long-pressing back
+        //     from here only shows Home instead of both Home and Setup Instructions.
+        if !SettingsStore.shared.developerMode {
+            navigationController?.popToRootViewController(animated: true)
+        } else if let nav = navigationController {
+            let stack = nav.viewControllers
+            let filtered = stack.filter { !($0 is MainViewController) }
+            if filtered.count != stack.count {
+                nav.setViewControllers(filtered, animated: false)
+            }
         }
     }
     

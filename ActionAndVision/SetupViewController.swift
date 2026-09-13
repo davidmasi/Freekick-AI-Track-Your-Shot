@@ -188,7 +188,7 @@ class SetupViewController: UIViewController {
     private func presentGoalSideSelectionPrompt() {
         let alert = UIAlertController(
             title: "Goal Side",
-            message: "Select whether the goal will be located on the left or right side of the live camera preview.",
+            message: "Select whether the goal will be located on the left or right side of the view.",
             preferredStyle: .alert
         )
         alert.addAction(UIAlertAction(title: "Left", style: .default, handler: { _ in
