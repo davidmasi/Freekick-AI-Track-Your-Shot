@@ -224,9 +224,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             // user-facing box in that slot; the dev-mode judgment (below) stacks above it.
             criteriaBoxLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
             criteriaBoxLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12),
-            // Fixed width so the box doesn't shrink when a classification has short bullets —
-            // keeps the visual footprint consistent across shot types.
-            criteriaBoxLabel.widthAnchor.constraint(equalToConstant: 220),
+            criteriaBoxLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 220),
             // Extra stats box mirrors criteria box on the opposite corner.
             extraStatsLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -12),
             extraStatsLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12),

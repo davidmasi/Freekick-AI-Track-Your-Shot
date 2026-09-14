@@ -45,16 +45,16 @@
                                 </label>
                             </subviews>
                         </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="34" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b0k-pn-qhh" userLabel="Angle Stack View">
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="34" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SpA-r9-aCW" userLabel="Score Stack View">
                             <rect key="frame" x="266.5" y="0.0" width="267" height="57"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Average Angle" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DsK-QU-nIi">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Top Speed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JVi-Xm-hW5">
                                     <rect key="frame" x="0.0" y="0.0" width="267" height="20.5"/>
                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="38.3º" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cn4-aD-fX2">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="24.3 MPH" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oE3-SP-LLN">
                                     <rect key="frame" x="0.0" y="23.5" width="267" height="33.5"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -62,16 +62,16 @@
                                 </label>
                             </subviews>
                         </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="34" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SpA-r9-aCW" userLabel="Score Stack View">
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="34" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b0k-pn-qhh" userLabel="Angle Stack View">
                             <rect key="frame" x="533.5" y="0.0" width="266.5" height="57"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Top Speed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JVi-Xm-hW5">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Average Angle" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DsK-QU-nIi">
                                     <rect key="frame" x="0.0" y="0.0" width="266.5" height="20.5"/>
                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="24.3 MPH" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oE3-SP-LLN">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="38.3º" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cn4-aD-fX2">
                                     <rect key="frame" x="0.0" y="23.5" width="266.5" height="33.5"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -117,7 +117,7 @@
                 <constraint firstItem="Ns6-GI-Ro2" firstAttribute="width" secondItem="M3p-x5-6xa" secondAttribute="width" id="0fv-vV-7zu"/>
                 <constraint firstItem="M3p-x5-6xa" firstAttribute="centerX" secondItem="RgQ-81-qtL" secondAttribute="trailing" id="3fW-kz-hbg"/>
                 <constraint firstItem="opD-Zb-VeF" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3mW-mE-wsr"/>
-                <constraint firstItem="Ns6-GI-Ro2" firstAttribute="centerX" secondItem="Cn4-aD-fX2" secondAttribute="trailing" id="4X0-2A-SOj"/>
+                <constraint firstItem="Ns6-GI-Ro2" firstAttribute="centerX" secondItem="oE3-SP-LLN" secondAttribute="trailing" id="4X0-2A-SOj"/>
                 <constraint firstItem="Ns6-GI-Ro2" firstAttribute="centerY" secondItem="M3p-x5-6xa" secondAttribute="centerY" id="8NK-6f-85k"/>
                 <constraint firstAttribute="bottom" secondItem="opD-Zb-VeF" secondAttribute="bottom" id="DHR-01-4D3"/>
                 <constraint firstItem="M3p-x5-6xa" firstAttribute="height" secondItem="4WT-rn-twS" secondAttribute="height" id="DKI-fm-fbi"/>

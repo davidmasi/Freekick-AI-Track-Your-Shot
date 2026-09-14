@@ -59,16 +59,25 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         // Home is the root — no back arrow ever.
         navigationController?.setNavigationBarHidden(true, animated: animated)
-        // Clear any stale recording source so subsequent fresh Play flows don't auto-forward past
-        // SourcePicker. Belt-and-suspenders in case any future code path forgets to reset.
-        GameManager.shared.recordedVideoSource = nil
-        GameManager.shared.directToLiveCamera = false
-        GameManager.shared.replayingRecordID = nil
+        // Clear stale state so subsequent fresh Play flows don't auto-forward past SourcePicker.
+        // If a video source is currently set, we've been handed one externally (Files app
+        // "Open with Freekick") — leave it alone so viewDidAppear can route it into the flow.
+        if GameManager.shared.recordedVideoSource == nil {
+            GameManager.shared.directToLiveCamera = false
+            GameManager.shared.replayingRecordID = nil
+        }
         reloadRecordings()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        // If SceneDelegate handed us an incoming external video (Files app "Open with Freekick"),
+        // push into SourcePicker — its viewDidAppear will auto-forward to the analysis flow
+        // because recordedVideoSource is already set.
+        if GameManager.shared.recordedVideoSource != nil {
+            pushStoryboardVC(withIdentifier: "SourcePickerViewController")
+            return
+        }
         animateHero()
     }
 
