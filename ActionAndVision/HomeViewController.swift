@@ -667,6 +667,30 @@ class HowItWorksViewController: UIViewController, UITextViewDelegate {
         contentStack.addArrangedSubview(makeSmallItalicLabel(
             "* To save a video with Freekick's overlay, utilize iOS screen recording."
         ))
+
+        // 8. Summary screen screenshot
+        contentStack.addArrangedSubview(makeAspectFitImageView(named: "htp-summary"))
+
+        // 9. Gameplay screenshot with all developer/extra-stats overlays visible.
+        contentStack.addArrangedSubview(makeAspectFitImageView(named: "htp-settings-on"))
+
+        // 10. Settings paragraph — includes an inline [settings] link.
+        contentStack.addArrangedSubview(makeSettingsParagraph())
+    }
+
+    /// 16:9 image view with rounded corners, aspect-fit content mode. Height derives from the
+    /// stack's chosen width via the ratio constraint so the images render at a consistent size
+    /// regardless of the parent's actual width.
+    private func makeAspectFitImageView(named name: String) -> UIImageView {
+        let imageView = UIImageView(image: UIImage(named: name))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 10
+        NSLayoutConstraint.activate([
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 9.0 / 16.0)
+        ])
+        return imageView
     }
 
     // MARK: - Text component factories
@@ -704,6 +728,25 @@ class HowItWorksViewController: UIViewController, UITextViewDelegate {
     }
 
     private func makeRecordingsParagraph() -> UITextView {
+        return makeLinkedParagraph(
+            prefix: "Raw footage is saved to Files → Freekick → Recordings, which can be played back in ",
+            linkText: "[recordings]",
+            linkURL: URL(string: "freekick://recordings")!
+        )
+    }
+
+    private func makeSettingsParagraph() -> UITextView {
+        return makeLinkedParagraph(
+            prefix: "View extra stats and change unit system in ",
+            linkText: "[settings]",
+            linkURL: URL(string: "freekick://settings")!
+        )
+    }
+
+    /// Body-styled paragraph with a monospace pill-link near the end. The link URL is opaque —
+    /// it never actually navigates externally; the textView delegate intercepts taps and pushes
+    /// the corresponding in-app screen. Ends with a period after the link.
+    private func makeLinkedParagraph(prefix: String, linkText: String, linkURL: URL) -> UITextView {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isEditable = false
@@ -721,16 +764,13 @@ class HowItWorksViewController: UIViewController, UITextViewDelegate {
             .font: bodyFont(),
             .foregroundColor: UIColor.white.withAlphaComponent(0.90)
         ]
-        let attributed = NSMutableAttributedString(
-            string: "Raw footage is saved to Files → Freekick → Recordings, which can be played back in ",
-            attributes: baseAttrs
-        )
         let linkAttrs: [NSAttributedString.Key: Any] = [
             .font: monoFont(),
             .foregroundColor: Self.accentGreen,
-            .link: URL(string: "freekick://recordings")!
+            .link: linkURL
         ]
-        attributed.append(NSAttributedString(string: "[recordings]", attributes: linkAttrs))
+        let attributed = NSMutableAttributedString(string: prefix, attributes: baseAttrs)
+        attributed.append(NSAttributedString(string: linkText, attributes: linkAttrs))
         attributed.append(NSAttributedString(string: ".", attributes: baseAttrs))
         textView.attributedText = attributed
         return textView
@@ -739,12 +779,16 @@ class HowItWorksViewController: UIViewController, UITextViewDelegate {
     // MARK: - UITextViewDelegate
 
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        if URL.absoluteString == "freekick://recordings" {
-            let vc = RecordingsViewController()
-            navigationController?.pushViewController(vc, animated: true)
+        switch URL.absoluteString {
+        case "freekick://recordings":
+            navigationController?.pushViewController(RecordingsViewController(), animated: true)
             return false
+        case "freekick://settings":
+            navigationController?.pushViewController(SettingsViewController(), animated: true)
+            return false
+        default:
+            return true
         }
-        return true
     }
 }
 
