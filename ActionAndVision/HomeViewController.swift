@@ -71,13 +71,6 @@ class HomeViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // If SceneDelegate handed us an incoming external video (Files app "Open with Freekick"),
-        // push into SourcePicker — its viewDidAppear will auto-forward to the analysis flow
-        // because recordedVideoSource is already set.
-        if GameManager.shared.recordedVideoSource != nil {
-            pushStoryboardVC(withIdentifier: "SourcePickerViewController")
-            return
-        }
         animateHero()
     }
 
@@ -663,13 +656,14 @@ class HowItWorksViewController: UIViewController, UITextViewDelegate {
         // 6. Recordings paragraph — includes an inline [recordings] link.
         contentStack.addArrangedSubview(makeRecordingsParagraph())
 
-        // 7. iOS screen recording note
+        // 7. Summary screen screenshot
+        contentStack.addArrangedSubview(makeAspectFitImageView(named: "htp-summary"))
+
+        // 8. iOS screen recording note — sits between the summary and the overlays-on screenshot
+        // as a subtext bridge tying the two related screens together.
         contentStack.addArrangedSubview(makeSmallItalicLabel(
             "* To save a video with Freekick's overlay, utilize iOS screen recording."
         ))
-
-        // 8. Summary screen screenshot
-        contentStack.addArrangedSubview(makeAspectFitImageView(named: "htp-summary"))
 
         // 9. Gameplay screenshot with all developer/extra-stats overlays visible.
         contentStack.addArrangedSubview(makeAspectFitImageView(named: "htp-settings-on"))

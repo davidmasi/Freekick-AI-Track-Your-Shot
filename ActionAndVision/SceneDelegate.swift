@@ -23,30 +23,45 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         window?.overrideUserInterfaceStyle = .dark
 
-        // Cold-launch via "Open with Freekick" (Files app / other sharesheets): stash the video
-        // on GameManager before Home appears. Home's viewDidAppear picks it up and routes into
-        // the analysis flow via SourcePicker.
+        // Cold-launch via "Open with Freekick" (Files app / other sharesheets). Deferring the
+        // navigation to the next main-runloop pass lets UIKit finish setting up the storyboard's
+        // initial nav controller + Home first; pushing before that is a no-op.
         if let urlContext = connectionOptions.urlContexts.first {
             acceptIncomingVideo(url: urlContext.url)
+            DispatchQueue.main.async { [weak self] in
+                self?.routeToAnalysis(animated: false)
+            }
         }
     }
 
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        // Warm-launch (app already running) via "Open with Freekick".
+        // Warm-launch: the app is already running, the view hierarchy is up. Route immediately.
         guard let urlContext = URLContexts.first else { return }
         acceptIncomingVideo(url: urlContext.url)
-        // Force the nav stack back to Home so its viewDidAppear picks up the new source and
-        // routes into the analysis flow. Interrupts whatever the user was doing — acceptable
-        // for an explicit "Open with Freekick" gesture.
-        if let nav = window?.rootViewController as? UINavigationController {
-            nav.popToRootViewController(animated: true)
+        routeToAnalysis(animated: true)
+    }
+
+    /// Push SourcePicker onto the nav stack so its auto-forward logic picks up the just-set
+    /// recordedVideoSource and segues into the analysis flow. Pops back to root first if the
+    /// user was mid-navigation (say, in gameplay) — this is an explicit "Open with Freekick"
+    /// gesture, so interrupting whatever was on screen is expected. Idempotent enough that
+    /// firing it twice on the same launch would just push SourcePicker twice, but neither
+    /// callsite hits it twice.
+    private func routeToAnalysis(animated: Bool) {
+        guard let nav = window?.rootViewController as? UINavigationController else { return }
+        if nav.viewControllers.count > 1 {
+            nav.popToRootViewController(animated: false)
+        }
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        if let sp = mainStoryboard.instantiateViewController(withIdentifier: "SourcePickerViewController") as? SourcePickerViewController {
+            nav.pushViewController(sp, animated: animated)
         }
     }
 
     /// Copy the incoming file into our tmp directory so the AVAsset can read it without needing
     /// the source URL's security scope maintained. If the copy fails (transient Files.app URL,
     /// permission issue), fall back to using the URL directly and keep the security scope open
-    /// for the AVAsset's lifetime. Actual navigation happens on HomeViewController.viewDidAppear.
+    /// for the AVAsset's lifetime.
     private func acceptIncomingVideo(url: URL) {
         let scoped = url.startAccessingSecurityScopedResource()
         let ext = url.pathExtension.isEmpty ? "mov" : url.pathExtension

@@ -47,8 +47,11 @@ extension UIImage {
                                                              Unmanaged.passUnretained(kCGImagePropertyGIFDelayTime).toOpaque()), to: AnyObject.self)
         }
         delay = delayObject as? Double ?? 0
-        if delay < 0.1 {
-            delay = 0.1 // Make sure they're not too fast
+        // Guard against pathological 0-delay frames that would peg CPU. 0.02s = 50fps ceiling,
+        // matches the practical GIF-standard minimum and honors normal 24/30fps authoring
+        // (which would otherwise get 3x-slowed by a 0.1s clamp).
+        if delay < 0.02 {
+            delay = 0.02
         }
         return delay
     }

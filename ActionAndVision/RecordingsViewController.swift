@@ -38,7 +38,7 @@ class RecordingsViewController: UIViewController {
         view.addSubview(tableView)
 
         swipeHintLabel.translatesAutoresizingMaskIntoConstraints = false
-        swipeHintLabel.text = "Swipe left to delete recording"
+        swipeHintLabel.text = "Swipe left on recording to delete"
         swipeHintLabel.textColor = UIColor.white.withAlphaComponent(0.4)
         swipeHintLabel.font = UIFont.systemFont(ofSize: 12)
         swipeHintLabel.textAlignment = .center
