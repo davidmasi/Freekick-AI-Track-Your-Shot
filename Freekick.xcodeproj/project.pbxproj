@@ -23,6 +23,7 @@
 		5FF06755243E88EF0021D743 /* SourcePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF06754243E88EF0021D743 /* SourcePickerViewController.swift */; };
 		6349ABAC2FC8B3A900F8BF7C /* SessionRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6349ABAA2FC8B3A800F8BF7C /* SessionRecorder.swift */; };
 		6349ABAD2FC8B3A900F8BF7C /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6349ABAB2FC8B3A900F8BF7C /* SessionStore.swift */; };
+		634C54263060C9A500B1A1EF /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 634C54253060C9A500B1A1EF /* PrivacyInfo.xcprivacy */; };
 		635E766C2D134D220085ECC7 /* ShotClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 635E766B2D134D220085ECC7 /* ShotClassifier.mlmodel */; };
 		636137842D135E1E00685FE9 /* GoalDetector.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 636137832D135E1E00685FE9 /* GoalDetector.mlmodel */; };
 		636A35192FBE99DF00109D58 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 636A35162FBE99DE00109D58 /* Inter-Bold.ttf */; };
@@ -64,6 +65,7 @@
 		5FF06754243E88EF0021D743 /* SourcePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcePickerViewController.swift; sourceTree = "<group>"; };
 		6349ABAA2FC8B3A800F8BF7C /* SessionRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionRecorder.swift; sourceTree = "<group>"; };
 		6349ABAB2FC8B3A900F8BF7C /* SessionStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		634C54253060C9A500B1A1EF /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		635E766B2D134D220085ECC7 /* ShotClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = ShotClassifier.mlmodel; path = /Users/david/Desktop/F/Freekick/ActionAndVision/ShotClassifier.mlmodel; sourceTree = "<absolute>"; };
 		636137832D135E1E00685FE9 /* GoalDetector.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GoalDetector.mlmodel; sourceTree = "<group>"; };
 		636A35162FBE99DE00109D58 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				636A35162FBE99DE00109D58 /* Inter-Bold.ttf */,
 				636A35172FBE99DF00109D58 /* Inter-ExtraBold.ttf */,
 				DF3EC83823D65E390007EAE9 /* Assets.xcassets */,
+				634C54253060C9A500B1A1EF /* PrivacyInfo.xcprivacy */,
 				638EBA8E2D406BE500B26F37 /* freekickExample.gif */,
 				DF3EC83223D65E340007EAE9 /* Main.storyboard */,
 				DF3EC83A23D65E390007EAE9 /* LaunchScreen.storyboard */,
@@ -243,6 +246,7 @@
 				5F1EC07823EC9EA100E35618 /* SetupViewController.xib in Resources */,
 				DF3EC83C23D65E390007EAE9 /* LaunchScreen.storyboard in Resources */,
 				DF3EC83923D65E390007EAE9 /* Assets.xcassets in Resources */,
+				634C54263060C9A500B1A1EF /* PrivacyInfo.xcprivacy in Resources */,
 				636A35192FBE99DF00109D58 /* Inter-Bold.ttf in Resources */,
 				DF3EC83423D65E340007EAE9 /* Main.storyboard in Resources */,
 				636A351C2FBE9A1900109D58 /* Inter-Regular.ttf in Resources */,
