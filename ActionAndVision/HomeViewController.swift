@@ -6,9 +6,8 @@
 //    - Top bar with utility icons (help ?, settings gear)
 //    - Hero: logo + title + subtitle
 //    - Primary action: filled "Start Session" button
-//      header ("Last Session: MM-dd-yy (N)") + full-width 16:9 thumbnail of the most recent
-//      recording. Tap thumbnail to replay. "(N)" is the chronological ordinal of that recording
-//      within its calendar day.
+//      header ("Last Session: MM-dd-yy") + full-width 16:9 thumbnail of the most recent
+//      recording. Tap thumbnail to replay.
 //    - Last Session stats footer: Total Shots · Average Speed · Top Speed (all sourced from the
 //      most recent session; the all-time top speed lives on the Settings screen).
 //
@@ -26,7 +25,7 @@ class HomeViewController: UIViewController {
     private let startButton = UIButton(type: .system)
 
     // Last Session block
-    private let lastSessionLabel = UILabel()               // "Last Session: MM-dd-yy (N)"
+    private let lastSessionLabel = UILabel()               // "Last Session: MM-dd-yy"
     private let recordingsSeeAllButton = UIButton(type: .system)
     private let lastSessionThumbnail = UIImageView()
     private let recordingsEmptyLabel = UILabel()
@@ -39,7 +38,7 @@ class HomeViewController: UIViewController {
     private var recordings: [SessionRecord] = []
 
     // Date format for the Last Session line is now derived per-render via formatSessionDate() so
-    // it can flip between US (MM-dd) and UK (dd-MM) with the Units toggle. No stored formatter.
+    // it can flip between US (MM-dd) and UK (dd-MM) with the Units toggle.
 
     override func viewDidLoad() {
         super.viewDidLoad()
